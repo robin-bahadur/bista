@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_stock_level" model="ir.ui.view">
+            <field name="name">Stock Level</field>
+            <field name="model">stock.level</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Level Reset">
+                    <separator string="Stock Csv" colspan="4"/>
+                     <field name="location_id"></field>
+                     <button name="stock_csv" string="Stock csv" type="object" icon="gtk-execute"/>
+                     <field name="name" invisible="1"></field><newline/>
+                     <field name="stock_csv_export" string="Export" filename="name" colspan="4"/>
+                     
+                    <separator string="Stock Level Reset" colspan="4"/>
+                     <field name="csv_file"></field>
+                    <button icon='gtk-cancel' special="cancel" string="Cancel"/><newline/>
+                    <button name="stock_level_change" string="Stock Level Reset" type="object" icon="gtk-execute"/>
+                </form>
+            </field>
+        </record>
+ <act_window name="Stock Level"
+            res_model="stock.level"
+            src_model="stock.move"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_act_stock_level"/>
+<!--        <record id="act_stock_level" model="ir.actions.act_window">
+            <field name="name">Stock Level Reset</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.level</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>-->
+
+    </data>
+</openerp>

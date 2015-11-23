@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+          <record id="check_tree" model="ir.ui.view">
+            <field name="name">check.tree</field>
+            <field name="model">customer.check</field>
+            <field name="arch" type="xml">
+                <tree string="customer_check">
+                    <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+
+         <record id="cust_check" model="ir.actions.act_window">
+            <field name="name">cust</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">customer.check</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="check_tree"/>
+        </record>
+
+
+       <menuitem id="menu_order_line" name="Customer Tickbox" parent="base.menu_base_partner"/>
+       <menuitem id="sub_menu_order_line" name="Customer Tickbox" parent="kalpa.menu_order_line" action="kalpa.cust_check"/>
+       
+<!--        <record id="view_partner_form_imp_inherit_meetings" model="ir.ui.view">
+            <field name="name">view.partner.form.imp.meetings.phonecall.emails</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="partner_kalpa.view_partner_form_imp" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+             <xpath expr="/form/group[2]" position="after">
+                   <field colspan="2" name="meeting_ids" nolabel="1"  mode="tree" >
+                                <tree string="Meeting">
+                                    <field name="app_date" string="Date of appointment"/>
+                                    <field name="description"/>
+                                    <field name="user_id"/>
+                                </tree>
+
+                   </field>
+                   <newline/>
+                   <field colspan="2" name="phonecall_ids" nolabel="1"  mode="tree" >
+                       <tree string="Phone Calls">
+                           <field name="date"/>
+                           <field name="name"/>
+                           <field name="partner_phone"/>
+                            <field name="description"/>
+                           <field name="user_id"/>
+                           <field name="categ_id"/>
+                           <field name="state"/>
+                       </tree>
+                   </field>
+                 <newline/>
+                 <field colspan="2" name="emails" nolabel="1"  mode="tree" ></field>
+
+         </xpath>
+        </field>
+     </record>-->
+
+<!--        <record id="view_crm_partner_info_form1_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.meetings.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="crm.view_crm_partner_info_form1"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+             <xpath expr="/page/field[@name='phonecall_ids']/tree" position="replace">
+                <field name="partner_id"/>
+             </xpath>
+            </field>
+
+       </record>-->
+
+
+<!--        <record id="crm_case_tree_view_meet_inherit" model="ir.ui.view">
+            <field name="name">CRM - Meetings Tree1</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_meet" />
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="location" position="replace">
+                     <field name="partner_address_id" string="Contact"/>
+                </field>
+
+                <field name="date" position="replace">
+                    <field name="appointment_date" string="Start Date"/>
+                </field>
+            </field>
+       </record>-->
+
+<!--        <record id="view_partner_form_vat_kalpa" model="ir.ui.view">
+            <field name="name">view.partner.form.vat.kalpa</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="partner_kalpa.view_partner_form_imp" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="vat"/>
+                    <field name="ref"/>
+                    <field name="qt_number"/>
+                </field>
+
+                <xpath expr="/form/group[2]/field[@name='address']/form/group[1]/field[@name='sub_number']" position="replace">
+                    
+                </xpath>
+            </field>
+        </record>-->
+
+
+
+
+        <record id="view_partner_form_customers_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.customers.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="lang" position="after">
+                    <field name="qt_number"/>
+                </field>
+<!--                <xpath expr="/form/notebook/page[@string='General']/field[@name='address']/form/group[2]/field[@name='street2']" position="replace">
+                    
+                </xpath>-->
+               <!--xpath expr="//field[@name='property_account_position']" position="after">
+			<field name="vat_new"/>
+		</xpath-->
+                <xpath expr="//notebook/page[@string='History']" position="after">
+
+                    <page string="Other Info">
+                       <group>
+                          <group>
+                            <group>
+                                <field name="m2o1" colspan="10" nolabel="1" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o2" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean2" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o3" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean3" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o4" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean4" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o5" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean5" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o6" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean6" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o7" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean7" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o8" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean8" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o9" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean9" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o10" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean10" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o11" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean11" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o12" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean12" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o13" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean13" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o14" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean14" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o15" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean15" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o16" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean16" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o17" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean17" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="m2o18" readonly="1" colspan="10" nolabel="1"/>
+                            </group>
+                            <group>
+                                <field name="boolean18" colspan="10" nolabel="1"/>
+                            </group>
+                          </group>
+
+                            
+                          <group>
+                                <field name="consignment_value_function" colspan="2" string="Consignment"/>
+                                <newline/>
+                                <field name="quotation_value" colspan="2" string="Quotation"/>
+                                <field name="no_quotation" colspan="2" string=""/>
+
+                                <newline/>
+
+                                <field name="invoice_value_2012" colspan="2" string="Invoice current Y"/>
+                                <field name="no_invoices_2012" colspan="2" string=""/>
+                                <newline/>
+
+                                <field name="invoice_value_previous" colspan="2" string="Invoice Previous Y"/>
+                                <field name="no_invoices_previous" colspan="2" string=""/>
+
+                                <newline/>
+                                <field name="invoice_value_unpaid" colspan="2" string="Unpaid"/>
+                                <field name="no_invoices_unpaid" colspan="2" string=""/>
+                                <field name="contact_date"/>
+                         </group>
+                      </group>
+                   </page>
+                </xpath> 
+            </field>
+        </record>
+
+<!--        <record id="view_partner_form_replace_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.replace.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="crm.view_crm_partner_info_form1" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <xpath expr="/form/notebook/page[@string='History']/field[@name='opportunity_ids']" position="replace">
+               </xpath>
+               <xpath expr="/form/notebook/page[@string='History']/field[@name='meeting_ids']" position="replace">
+               </xpath>
+               <xpath expr="/form/notebook/page[@string='History']/field[@name='phonecall_ids']" position="replace">
+               </xpath>
+                <field name="opportunity_ids" position="replace"/>
+                <field name="meeting_ids" position="replace"/>
+                <field name="phonecall_ids" position="replace"/>
+                <field name="emails" position="replace"/>
+               
+            </field>
+        </record>-->
+
+<!--         <record id="view_partner_crm_inherit_info2" model="ir.ui.view">
+            <field name="name">view.partner.crm.inherit.info2</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="crm.view_crm_partner_info_form1" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <page string="History">
+                 <field name="meeting_ids" colspan="4" nolabel="1"  context="{'default_partner_id': active_id}">
+                     <tree string="Meeting">
+                         <field name="app_date" string="Date of appointment"/>
+                         <field name="description"/>
+                         <field name="user_id"/>
+                     </tree>
+                 </field>
+                 <field name="phonecall_ids" colspan="4" nolabel="1" context="{'default_partner_id': active_id}">
+                        <tree string="Phone Calls">
+                           <field name="date"/>
+                           <field name="name"/>
+                           <field name="description"/>
+                           <field name="user_id"/>
+                        </tree>
+                 </field>
+                 <field name="emails" colspan="4" nolabel="1">
+                     <tree string="Emails">
+                         <field name="date"/>
+                         <field name="name"/>
+                     </tree>
+                 </field>
+                 <field name="opportunity_ids" colspan="4" nolabel="1" context="{'default_partner_id': active_id}"/>
+
+               </page>
+            </field>
+        </record>-->
+
+<!--         <record id="view_email_smtpclientnew_inherit1" model="ir.ui.view">
+            <field name="name">view.email.smtpclientnew.inherit1</field>
+            <field name="model">email.smtpclient</field>
+            <field name="inherit_id" ref="smtpclientnew.email_smtpclient_form_new" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+              <xpath expr="/form/notebook/page[@string='Configuration']/group[2]/field[@name='password']" position="after">
+                  <field name="alternate_email"/>
+                  <field name="default_server"/>
+              </xpath>
+
+            </field>
+        </record>-->
+
+<!--     <act_window name="Consignment Location"
+            domain="[('partner_id','in',[active_id]),('partner_id', '&lt;&gt;', False)]"
+            view_id="view_consignment_location"
+            view_type="form"
+            id="act_partner_location"
+            res_model="stock.location"
+            src_model="res.partner"/>-->
+
+<!--     <act_window name="Quotations"
+            domain="[('partner_id','in',[active_id]),('state', '=', 'draft')]"
+            id="act_partner_quotation"
+            res_model="sale.order"
+            src_model="res.partner"/>
+
+     <act_window name="Unpaid Invoices"
+            domain="[('partner_id','in',[active_id]),('state', '&lt;&gt;', 'paid'),('state', '&lt;&gt;', 'cancel')]"
+            id="act_partner_unpaid_invoices"
+            res_model="account.invoice"
+            src_model="res.partner"/>-->
+
+   
+    </data>
+
+
+</openerp>

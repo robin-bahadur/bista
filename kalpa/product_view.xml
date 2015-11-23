@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="product_product_tree_view_hide_cost_tree" model="ir.ui.view">
+            <field name="name">product.product.hide.cost.tree1</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="replace">
+                    <field name="standard_price" groups="base.group_system"/>
+                </field>
+                <field name="lst_price" position="replace">
+                    <field name="lst_price" string="Sale Price"/>
+                </field>
+                <field name="categ_id" position="replace">
+                    <field name="categ_id"/>
+                </field>
+<!--                <field name="variants" position="replace">
+                </field>
+                <field name="uom_id" position="replace">
+                </field>
+                <field name="type" position="replace">
+                </field>
+                <field name="virtual_available" position="replace">
+                </field>
+                <field name="state" position="replace">
+                </field>-->
+                <field name="lst_price" position="after">
+                    <field name="kalpa_consignment_price"/>
+                    <field name="kalpa_public_price"/>
+                    <field name="kalpa_public_price_ex"/>
+                </field>
+
+
+                
+       
+            </field>
+       </record>
+       
+         <record model="ir.ui.view" id="product_normal_form_view_hide_cost_form">
+            <field name="name">product.product.hide.cost.form1</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <data>
+
+                    <field name="standard_price" position="attributes">
+                        <attribute name="groups">base.group_system</attribute>
+                    </field>
+                    <field name="list_price" position="after">
+                        <field name="kalpa_consignment_price"/>
+                    </field>
+
+                    <field name="list_price" position="after">
+                        <field name="kalpa_public_price" on_change="onchange_public_price(kalpa_public_price,categ_id)"/>
+                        <field name="kalpa_public_price_ex"/>
+                    </field>
+
+                    <field name="price_margin" position="replace"></field>
+                    <field name="price_extra" position="replace"></field>
+		    <group name="Weights" position="replace">
+                    </group>
+                    <field name="description" position="before">
+                        <group name="Weights" groups="product.group_stock_packaging" string="Weights">
+                           <field digits="(14, 3)" name="volume" attrs="{'readonly':[('type','=','service')]}"/>
+                           <field name="weight" attrs="{'readonly':[('type','=','service')]}"/>
+                           <field name="weight_net" attrs="{'readonly':[('type','=','service')]}"/>
+                       	</group>
+                    </field>
+              </data>
+            </field>
+         </record>
+
+
+
+         <record model="ir.ui.view" id="product_category_form_view_inherit">
+            <field name="name">product_category_form_view_inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="discount"/>
+                </field>
+            </field>
+          </record>
+	<record model="ir.ui.view" id="product_category_search_view_inherit">
+
+            <field name="name">product_product_search_view_inherit</field>
+
+            <field name="model">product.product</field>
+
+            <field name="inherit_id" ref="product.product_search_form_view" />
+
+            <field name="type">search</field>
+
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="before">
+
+			<field name="default_code"/>
+
+			<field name="categ_id"/>
+
+		</xpath>
+
+            </field>
+
+          </record>
+    </data>
+</openerp>
+

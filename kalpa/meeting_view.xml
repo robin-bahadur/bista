@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--        <record id="crm_case_tree_view_meet_inherit" model="ir.ui.view">
+            <field name="name">CRM - Meetings Tree1</field>
+            <field name="model">crm.meeting</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_meet" />
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="location" position="replace">
+                     <field name="partner_address_id" string="Contact"/>
+                </field>
+                <field name="categ_id" position="replace">
+                     
+                </field>
+                <field name="class" position="replace">
+
+                </field>
+
+            </field>
+       </record>-->
+
+	<record id="view_crm_meeting_tree_kalpa" model="ir.ui.view">
+
+           <field name="name">CRM - Meetings Kalpa</field>
+
+           <field name="model">crm.meeting</field>
+
+           <field name="inherit_id" ref="base_calendar.view_crm_meeting_tree" />
+
+           <field name="type">tree</field>
+
+           <field name="arch" type="xml">
+
+                 <field name="user_id">
+
+                 </field>
+
+
+
+                 <field name="duration" position="replace">
+
+                     <field name="description"/>
+
+                 </field>
+
+            </field>
+
+        </record>
+
+
+
+
+        <record id="view_crm_case_meetings_filter_inherit" model="ir.ui.view">
+           <field name="name">CRM - Meetings Search1</field>
+           <field name="model">crm.meeting</field>
+           <field name="inherit_id" ref="base_calendar.view_crm_meeting_search" />
+           <field name="type">search</field>
+           <field name="arch" type="xml">
+                 <field name="user_id" position="after">
+                        <field name="app_date" string="Appointment Date"/>
+                 </field>
+            </field>
+        </record>
+
+	 <record id="view_crm_case_meetings_form_inherit" model="ir.ui.view">
+           <field name="name">CRM - Meetings Search1</field>
+           <field name="model">crm.meeting</field>
+           <field name="inherit_id" ref="base_calendar.view_crm_meeting_form" />
+           <field name="type">form</field>
+           <field name="arch" type="xml">
+                 <xpath expr="//field[@name='partner_ids']" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</xpath>
+		<xpath expr="//field[@name='name']" position="after">
+			<h6> <label string="Customers"/> </h6>
+			<field name="partner_id"/>
+		</xpath>
+            </field>
+        </record>
+
+<!--
+      <record id="view_crm_case_meetings_calendar_inherit" model="ir.ui.view">
+           <field name="name">crm.meetings.calendar1</field>
+           <field name="model">crm.meeting</field>
+           <field name="inherit_id" ref="crm.crm_case_calendar_view_meet" />
+           <field name="type">calendar</field>
+           <field name="arch" type="xml">
+            <calendar>
+                 <field name="create_date"/>
+
+                 <field name="partner_address_id"/>
+            </calendar>
+            </field>
+        </record>-->
+
+ <!--Changes-->
+
+<!--        <record id="view_crm_case_tree_view_meet_inherit" model="ir.ui.view">
+           <field name="name">CRM - Meetings Tree2</field>
+           <field name="model">crm.meeting</field>
+           <field name="inherit_id" ref="crm.crm_case_tree_view_meet" />
+           <field name="type">tree</field>
+           <field name="arch" type="xml">
+                 <field name="class" position="replace"/>
+                 <field name="state" position="replace">
+
+                 </field>
+            </field>
+        </record>-->
+
+    </data>
+</openerp>

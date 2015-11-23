@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       
+      <!--  <record id="kalpa_view_stock_tree" model="ir.ui.view">
+            <field name="name">report.stock.move.tree.kalpa</field>
+            <field name="model">report.stock.move</field>
+            <field name="inherit_id" ref="stock.view_stock_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="value" position="replace">
+                    <field name="value" />
+                </field>
+            </field>
+       </record>
+
+
+        <record id="kalpa_view_stock_inventory_tree" model="ir.ui.view">
+            <field name="name">report.stock.inventory.tree.kalpa</field>
+            <field name="model">report.stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_stock_inventory_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="value" position="replace">
+                    <field name="value" />
+                </field>
+            </field>
+       </record>
+-->
+
+       <!--<record id="view_stock_inventory_tree_new" model="ir.ui.view">
+        <field name="name">report.stock.inventory.tree.new</field>
+        <field name="model">report.stock.inventory</field>
+        <field name="inherit_id" ref="stock.view_stock_inventory_tree"/>
+         <field name="type">tree</field>
+        <field name="arch" type="xml">
+             <field name="product_qty" position="after">
+                    <field name="product_total" groups="stock.group_stock_manager,base.group_sale_manager"/>
+             </field>
+                <field name="date" invisible="1"/>
+                <field name="year" invisible="1" />
+                <field name="month" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="location_type" invisible="1"/>
+                <field name="location_id" invisible="1"/>
+                <field name="partner_id" invisible="1" context="{'contact_display':'partner'}"/>
+                <field name="product_categ_id" invisible="1"/>
+                <field name="product_id" invisible="1"/>
+                <field name="prodlot_id" invisible="1"/>
+                <field name="state" invisible="1"/>
+                <field name="product_qty" sum="Total quantity"/>
+                <field name="value" sum="Total value"/>
+           </tree>
+        </field>
+    </record>-->
+
+    </data>
+
+
+</openerp>

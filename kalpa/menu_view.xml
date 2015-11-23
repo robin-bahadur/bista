@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--<menuitem id="account.menu_finance_reports" name="Reporting" parent="account.menu_finance" sequence="14" groups="kalpa.kalpa_account_report_show"/>-->
+       <menuitem id="account.menu_finance_legal_statement" name="Legal Reports" parent="account.menu_finance_reports" groups="kalpa.kalpa_account_report_show"/>
+       <menuitem id="account.menu_finance_generic_reporting" name="Generic Reporting" parent="account.menu_finance_reports" sequence="100" groups="kalpa.kalpa_account_report_show"/>
+       <menuitem name="Reporting"
+            id="base.menu_reporting"
+            groups="kalpa.kalpa_account_report_show"
+            sequence="170"/>
+       <menuitem id="base.menu_reporting_dashboard" name="Dashboards" parent="base.menu_reporting" sequence="0"  groups="kalpa.kalpa_account_report_show"/>
+       <menuitem id="base.next_id_64" name="Sales" parent="base.menu_reporting" sequence="1" groups="kalpa.kalpa_account_report_show"/>
+       <menuitem name="Leads Analysis" id="crm.menu_report_crm_leads_tree"
+            parent="base.next_id_64" action="crm.action_report_crm_lead" sequence="1" groups="kalpa.kalpa_account_report_show"/>
+       <menuitem name="Opportunities Analysis" id="crm.menu_report_crm_opportunities_tree"
+            parent="base.next_id_64" action="crm.action_report_crm_opportunity" sequence="5" groups="kalpa.kalpa_account_report_show"/>
+       <menuitem action="sale.action_order_report_all" id="sale.menu_report_product_all" parent="base.next_id_64" sequence="10" groups="kalpa.kalpa_account_report_show"/>
+       <menuitem name="Phone Calls Analysis"
+            action="crm.action_report_crm_phonecall"
+            id="crm.menu_report_crm_phonecalls_tree" parent="base.next_id_64" sequence="15" groups="kalpa.kalpa_account_report_show"/>
+
+       <menuitem id="base.next_id_73" name="Purchase" parent="base.menu_reporting" sequence="10"
+        groups="kalpa.kalpa_account_report_show"/>
+       <menuitem action="purchase.action_purchase_order_report_all" id="purchase.menu_action_purchase_order_report_all" parent="base.next_id_73" sequence="3"
+        groups="kalpa.kalpa_account_report_show"/>
+
+       <menuitem
+        id="stock.next_id_61"
+        name="Warehouse"
+        sequence="15"
+        parent="base.menu_reporting"
+        groups="kalpa.kalpa_account_report_show"/>
+        <menuitem action="purchase.action_stock_move_report_po" id="purchase.menu_action_stock_move_report_po" parent="stock.next_id_61" sequence="1" groups="kalpa.kalpa_account_report_show"/>
+        <menuitem parent="stock.next_id_61" action="stock.action_stock_line_date" id="stock.menu_report_stock_line_date" sequence="2" groups="kalpa.kalpa_account_report_show"/>
+        <menuitem action="stock.action_stock_move_report" id="stock.menu_action_stock_move_report" parent="stock.next_id_61" sequence="3" groups="kalpa.kalpa_account_report_show"/>
+        <menuitem action="stock.action_stock_inventory_report" id="stock.menu_action_stock_inventory_report" parent="stock.next_id_61" groups="kalpa.kalpa_account_report_show"/>
+
+        <menuitem id="account.menu_finance_reporting" name="Accounting" parent="base.menu_reporting" sequence="35" groups="kalpa.kalpa_account_report_show"/>
+
+
+
+
+       <!-- Accountig Access Rights-->
+
+              <!-- Not able to see  Supplier Menu-->
+              <menuitem id="account.menu_finance_payables" name="Suppliers" parent="account.menu_finance" sequence="3" groups="account.group_account_manager"/>
+              <!--Not able to see Payment Order-->
+              <menuitem id="account_payment.menu_main_payment" name="Payment" parent="account.menu_finance" sequence="7" groups="account.group_account_manager"/>-->
+
+       <menuitem action="stock.action_picking_tree4" id="stock.menu_action_picking_tree4" parent="stock.menu_stock_warehouse_mgmt" sequence="1" groups="stock.group_stock_manager"/>
+       <menuitem action="stock.action_reception_picking_move" id="stock.menu_action_pdct_in" parent="stock.menu_stock_products_moves" sequence="1"  groups="stock.group_stock_manager"/>
+       <menuitem id="stock.menu_stock_inventory_control" name="Inventory Control" parent="stock.menu_stock_root" sequence="4" groups="stock.group_stock_manager"/>
+
+       <!--Sales Person And Other Users not able to see Admin res_partner record-->
+      <!-- <menuitem id="base.menu_partner_form" parent="base.menu_sales" action="base.action_partner_form" sequence="1" groups="kalpa.kalpa_restrict_admin_record"/>-->
+
+
+<!--        In Accounting :- Invoicing &amp; Payments is not able to do Payment Process -->
+
+         <!--<record id="account.view_invoice_customer" model="ir.ui.view">
+            <field name="name">account.invoice.customer.pay.kalpa</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='invoice_open'][last()]" position="after">
+                    <button name="account.invoice_pay_customer" type="object" string="Register Payment"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',True)]}" groups="kalpa.kalpa_register_payment_show"/>
+                    <button name="account.invoice_pay_customer" type="object" string="Register Payment"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',False)]}" class="oe_highlight" groups="kalpa.kalpa_register_payment_show"/>
+                </xpath>
+            </field>
+        </record>-->
+
+        
+
+  </data>
+</openerp>

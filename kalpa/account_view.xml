@@ -1,0 +1,106 @@
+<openerp>
+    <data>
+	<record id="invoice_form_kalpa" model="ir.ui.view">
+
+            <field name="name">account.invoice.form.kalpa</field>
+
+            <field name="model">account.invoice</field>
+
+            <field name="inherit_id" ref="account.invoice_form"/>
+
+            <field name="type">form</field>
+
+            <field name="arch" type="xml">
+
+
+
+                <field name="account_id" position="after">
+
+                    <field name="discount_policy"/>
+
+                </field>
+
+
+
+                <xpath expr="//field[@name='invoice_line']" position="after">
+
+                               <separator string="Discount on Total" colspan="4"  attrs="{'invisible': [('discount_policy','=','line')]}"/>
+
+                                <field name="discount_on_total" string="Discount" on_change="onchange_discount_all(discount_on_total,invoice_line)" attrs="{'invisible': [('discount_policy','=','line')]}"/>
+
+                 </xpath>
+
+
+
+            </field>
+
+       </record>
+
+
+	<record id="view_bank_statement_form_kalpa_inherit" model="ir.ui.view">
+
+            <field name="name">account.bank.statement.kalpa</field>
+
+            <field name="model">account.bank.statement</field>
+
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
+
+            <field name="type">form</field>
+
+            <field name="arch" type="xml">
+
+               <field name="line_ids" position="after">
+
+                    <label for="balance_end"/>
+
+                    <field name="balance_end"/>
+
+               </field>
+
+               <notebook position="inside">
+
+                   <page string="Journal Entries" attrs="{'invisible': [('state','!=','confirm')]}">
+
+                            <field name="move_line_ids" string="Journal Entries"/>
+
+                   </page>
+
+               </notebook>
+
+               
+
+            </field>
+
+       </record>
+       <record id="view_payment_term_form_kalpa_inherit" model="ir.ui.view">
+            <field name="name">view.payment.term.kalpa</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                <field name="active" position="after">
+                    <field name="direct_debit"/>
+                    <field name="refund"/>
+                </field>
+
+
+            </field>
+
+       </record>
+
+       <record id="new_account_tax_form" model="ir.ui.view">
+                <field name="name">new.account.tax.form</field>
+                <field name="model">account.tax</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="account.view_tax_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="/form/group/group[2]/field[@name='active']" position="after">
+                         <field name="is_default" on_change="onchange_bool(is_default)"/>
+                    </xpath>
+                    </field>
+       </record>
+
+
+   </data>
+</openerp>

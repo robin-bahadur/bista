@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record id="view_stock_return_products" model="ir.ui.view">
+            <field name="name">Return products</field>
+            <field name="model">return.products.move</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Return Products">
+                    <separator string="Return Products" colspan="4"/>
+                    <field name="source_location" />
+                    <field name="destination_location"/>
+                    <button icon='gtk-cancel' special="cancel" string="Cancel"/>
+                    <button name="return_products" string="Return" type="object" icon="gtk-execute"/>
+                </form>
+           </field>
+        </record>
+
+        <record id="act_return_products" model="ir.actions.act_window">
+            <field name="name">Return products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">return.products.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+       <record id="view_stock_return_products_single" model="ir.ui.view">
+            <field name="name">Return products Single</field>
+            <field name="model">return.products.single</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Return Products Single">
+                    <separator string="Return Products Single" colspan="4"/>
+                    <field name="source_location" />
+                    <field name="destination_location"/>
+                    <field name="edit_quantity"/>
+                    <button icon='gtk-cancel' special="cancel" string="Cancel"/>
+                    <button name="return_products_single" string="Return" type="object" icon="gtk-execute"/>
+                </form>
+           </field>
+        </record>
+
+        <record id="act_return_products_single" model="ir.actions.act_window">
+            <field name="name">Return products Single</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">return.products.single</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+   </data>
+</openerp>

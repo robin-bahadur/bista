@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_multi_notes_sale_all_user,multi.notes,model_multi_notes,kalpa.kalpa_sale_person_record_rule,1,1,1,1
+access_email_partner_sale_all_user,email.partner,model_email_partner,kalpa.kalpa_sale_person_record_rule,1,1,1,1
+access_res_partner,base.res.partner,base.model_res_partner,kalpa.kalpa_sale_person_record_rule,1,1,1,1
+access_product_product_sale_user_kalpa,product.product kalpa,product.model_product_product,base.group_user,1,0,0,0
+access_product_template_sale_user_kalpa,product.template kalpa,product.model_product_template,kalpa.kalpa_sale_person_record_rule,1,0,0,0
+access_product_category_sale_user_kalpa,product.category kalpa,product.model_product_category,kalpa.kalpa_sale_person_record_rule,1,0,0,0
+

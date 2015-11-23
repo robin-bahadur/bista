@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record id="view_stock_move_change_price_wizard" model="ir.ui.view">
+            <field name="name">Price change</field>
+            <field name="model">stock.change.price</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Price Change">
+                    <separator string="Change price" colspan="4"/>
+                    <field name="change_consignment_price" />
+                    <field name="change_public_price"/>
+                    <button icon='gtk-cancel' special="cancel" string="Cancel"/>
+                    <button name="change_price" string="OK" type="object"/>
+                </form>
+           </field>
+        </record>
+        
+        <record id="act_price_change" model="ir.actions.act_window">
+            <field name="name">Price change</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.change.price</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+<!--         <act_window name="Change Price wizard"
+            res_model="stock.change.price"
+            src_model="stock.location"
+            view_mode="form"
+            target="new"
+            multi="True"
+            key2="client_action_multi"
+            id="action_view_stock_move_change_price_wizard"/>-->
+
+</data>
+</openerp>

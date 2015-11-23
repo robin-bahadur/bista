@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	   <record id="view_quotation_tree_inherit11" model="ir.ui.view">
+
+		<field name="name">sale.quotation.tree.inherit11</field>
+
+		<field name="model">sale.order</field>
+
+		<field name="type">tree</field>
+
+		<field eval="8" name="priority"/>
+
+		<field name="inherit_id" ref="sale.view_quotation_tree"/>
+
+		<field name="arch" type="xml">
+
+
+
+                        <field name="partner_id" position="after">
+
+                            <field name="zip" string="Zip"/>
+
+                        </field>
+
+            </field>
+
+       </record>
+
+
+
+       	<record id="view_order_tree_inherit11" model="ir.ui.view">
+
+		<field name="name">sale.order.tree.inherit11</field>
+
+		<field name="model">sale.order</field>
+
+		<field name="type">tree</field>
+
+		<field eval="8" name="priority"/>
+
+		<field name="inherit_id" ref="sale.view_order_tree"/>
+
+		<field name="arch" type="xml">
+
+
+
+                        <field name="partner_id" position="after">
+
+                            <field name="zip" string="Zip"/>
+
+                        </field>
+
+            </field>
+
+       </record>
+
+	<record id="view_order_form_inherit1" model="ir.ui.view">
+
+            <field name="name">sale.order.form.sale.stock</field>
+
+            <field name="model">sale.order</field>
+
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_view_delivery']" position="replace">
+
+                       <button name="action_view_delivery" string="View Delivery Order" type="object" class="oe_highlight"
+
+                           attrs="{'invisible': ['|','|','|',('picking_ids','=',False),('picking_ids','=',[]), ('state', 'not in', ('progress','manual'))]}" groups="base.group_user"/>
+
+                </xpath>
+
+            </field>
+
+       </record>
+       	    <record id="view_sale_order_inherited" model="ir.ui.view">
+                <field name="name">view.sale.order.inherited</field>
+                <field name="model">sale.order</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="sale.view_order_form"/>
+                <field name="arch" type="xml">
+		           <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="attributes">
+				<attribute name="invisible">1</attribute>
+				<attribute name="required">0</attribute>
+			   </xpath>
+			   <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="attributes">
+				<attribute name="required">0</attribute>
+			   </xpath>
+			   <xpath expr="//field[@name='date_order']" position="before">
+				<field name="creation_date"/>
+			   </xpath>
+                           <xpath expr="//field[@name='client_order_ref']" position="after">
+                               <field name="discount_policy"/>
+                           </xpath>
+
+                           <xpath expr="//field[@name='order_line']" position="after">
+                               <separator string="Discount on Total" colspan="4" attrs="{'invisible': [('discount_policy','=','line')]}"/>
+                                <field name="discount_on_total" string="Discount" on_change="onchange_discount_all(discount_on_total,order_line)" attrs="{'invisible': [('discount_policy','=','line')]}"/>
+                                <!--<field name="discount_on_total" string="Discount"/>-->
+			   </xpath>
+
+                           <xpath expr="//field[@name='order_line']/form/group/group[1]/div[@name='discount']/field[@name='discount']" position="replace">
+				<!--<field name="discount" class="oe_inline" attrs="{'invisible': [('discount_policy','=','order')]}"/>-->
+                                <field name="discount" class="oe_inline"/> %%
+			   </xpath>
+                           <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="replace">
+				<!--<field name="discount" groups="sale.group_discount_per_so_line" attrs="{'invisible': [('discount_policy','=','order')]}"/>-->
+                                <field name="discount" groups="sale.group_discount_per_so_line"/>
+			   </xpath>
+			   <field name="client_order_ref" position="before">
+
+                                <field name="contact_name"/>
+
+                           </field>
+
+                </field>
+            </record>
+        <record id="view_order_form_kalpa" model="ir.ui.view">
+        <field name="name">view.order.form.kalpa</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/header/button[@name='cancel']" position="after">
+                <button name="process_order" string="Draft Invoice" type="object" attrs="{'invisible' :[('state','in',['cancel','done'])]}"/>
+            </xpath>
+        </field>
+        </record>
+	</data>
+</openerp>

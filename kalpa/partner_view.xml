@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+	<!-- ===============
+		After add this view one field will be added in customers
+		screen in accounting tab after the field "Payment Term"
+		================= -->
+	<!-- This record is for inhertance purpose -->
+		
+<!--		<record id="view_partner_inherited_4c" model="ir.ui.view">
+            <field name="name">view.partner.inherited.4c</field>
+            	 here give the class name in which you want to add columns 
+					here suppiler_name you want to add after first_name
+			<field name="model">res.partner</field>
+            <field name="type">form</field>
+				 in reference give foldername dot record id of tree or form view
+			<field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+				<field name="property_payment_term" widget="selection" position="after">
+					<field name="per_kalpa" />
+			    </field>
+			</field>
+		</record>-->
+
+	<!-- For just rename street2 as house number.-->
+<!--		<record id="view_partner_inherited_4c2" model="ir.ui.view">
+            <field name="name">view.partner.inherited.4c2</field>
+			<field name="model">res.partner</field>
+            <field name="type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="/form/notebook/page[@string='General']/field[@name='address']/field[@name='street2']" position="replace">
+					<field name="street2" />
+                                </xpath>
+			    </field>
+			</field>
+		</record>-->
+		
+	<!-- For just Hide state field from client.-->
+            <record id="view_partner_inherited_4c3" model="ir.ui.view">
+                <field name="name">view.partner.inherited.4c3</field>
+                <field name="model">res.partner</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="base.view_partner_form"/>
+                <field name="arch" type="xml">
+                    <field name="state_id" position="replace">
+                    </field>
+		    <field name="function" position="before">
+			<field name="contact_name"/>
+                    </field>
+		</field>
+            </record>
+	
+	<!-- Replace customers with kalpa customer -->
+	<!--	<record id="view_partner_inherited_4c8" model="ir.ui.view">
+            <field name="name">view.partner.inherited.4c8</field>
+			<field name="model">res.partner</field>
+            <field name="type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+				<field name="customer" select="1" position="replace">
+					<field name= "kalpa_customer"/>
+			    </field>
+			</field>
+		</record>	 -->
+		
+	<!-- For just Hide the fax field from client.-->
+            <record id="view_partner_inherited_4c4" model="ir.ui.view">
+                <field name="name">view.partner.inherited.4c4</field>
+                <field name="model">res.partner</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="base.view_partner_form"/>
+                <field name="arch" type="xml">
+                    <field name="fax" position="replace">
+                    </field>
+                </field>
+            </record>
+	
+	<!-- For just add subnumber after house number.-->
+<!--		<record id="view_partner_inherited_4c5" model="ir.ui.view">
+            <field name="name">view.partner.inherited.4c5</field>
+			<field name="model">res.partner</field>
+            <field name="type">form</field>
+			<field name="inherit_id" ref="view_partner_inherited_4c2"/>
+            <field name="arch" type="xml">
+				<field name="street2" colspan="4" position="after">
+					<field name="sub_number" />
+			    </field>
+			</field>
+		</record>-->
+		
+	<!-- add multiple secondary emails 
+			<record id="view_partner_inherited_4c6" model="ir.ui.view">
+				<field name="name">view.partner.inherited.4c6</field>
+				<field name="model">res.partner</field>
+				<field name="type">form</field>
+				<field name="inherit_id" ref="base.view_partner_form"/>
+				<field name="arch" type="xml">
+					<field name="email" widget="email" position="after">
+						<group colspan="2" col="2" >
+							<field colspan="2" mode="tree" name="email_o2m" nolabel="1">
+								<tree string="Secondary Emails" editable="top" >
+									<field name="email_address" widget="email" />
+								</tree>
+							</field>
+						</group>
+					</field>
+				</field>
+			</record>
+		-->
+            <record id="view_partner_inherited_4c7" model="ir.ui.view">
+                <field name="name">view.partner.inherited.4c7</field>
+                <field name="model">res.partner</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="base.view_partner_form"/>
+                <field name="arch" type="xml">
+                    <field name="phone" position="after">
+                        <field name="phone_no_extra" />
+                    </field>
+                    <xpath expr="//page[@string='History']" position="after">
+                        
+                        <page string = "Customer Notes">
+                            <field name="notes_o2m" nolabel="1">
+                                <tree string="Customer Notes" editable="top" >
+                                  
+                                        <field name="cust_note"/>
+					<field name="date_note"/>
+                                </tree>
+                                <form string="Customer Notes" >
+                                        <field name="date_note"/>
+                                        <field name="cust_note"/>
+                                </form>
+                            </field>
+                        </page>
+                    </xpath>	
+			<xpath expr="//field[@name='notes_o2m']" position="before">
+			<label string = "Meetings"  class="oe_bold"/>
+		       <field name="meeting_id" colspan="4"/>
+			<label string = "PhoneCalls"  class="oe_bold"/>
+		     <field name="phonecall_id" colspan="4"/>
+                     <label string = "Partner Mail"  class="oe_bold"/>
+		     <field name="partner_o2m" colspan="4"/>
+		   </xpath>
+                </field>
+            </record>
+		
+<!--        <record id="view_partner_inherited_4c9" model="ir.ui.view">
+            <field name="name">view.partner.inherited.4c9</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <page string="History" position="after">
+                    <field mode="tree,form" name="notes_o2m" nolabel="1">
+                        <tree string="Customer Notes" editable="top" >
+                                <field name="date_note" />
+                                <field name="cust_note" />
+                        </tree>
+                        <form string="Customer Notes" >
+                                <field name="date_note" />
+                                <field name="cust_note" />
+                        </form>
+                    </field>
+                </page>
+            </field>
+        </record>-->
+
+	<record model="ir.ui.view" id="view_partner_inherited_4c111">
+            <field name="name">view.partner.inherited.4c111</field>
+            <field name="model">multi.notes</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Notes">
+                    <field name="partner_id"/>
+		    <field name="date_note"/>
+		    <field name="cust_note"/>
+                    <field name = "postal_code" invisible="1" />
+		    <field name="date_in_char" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+		
+	<record id="view_partner_inherited_4c101" model="ir.ui.view">
+            <field name="name">view.partner.inherited.4c101</field>
+	    <field name="model">multi.notes</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+		<form string="Customer Notes" >
+                    <field name="partner_id"/>
+		    <field name="date_note"/>
+		    <field name="cust_note"/>
+		    <field name="postal_code" invisible="1"/>	
+		    <field name="date_in_char" invisible="1"/>				
+		</form>
+	    </field>
+	</record>		
+
+	<record model="ir.actions.act_window" id="action_customer_notes1">
+		<field name="name">Customer Notes</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">multi.notes</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+
+
+
+<!--	<menuitem id="menu_customer_notes2" parent="base.menu_address_book" name="Customer Notes" action="action_customer_notes1" />-->
+
+	<!-- This view is for add IBAN and BIC no in Bank screen in Accouting TAB in PArtner Screen -->
+	<!--  <record id="view_partner_inherited_4c11" model="ir.ui.view">
+            <field name="name">view.partner.inherited.4c11</field>
+	    <field name="model">res.partner</field>
+            <field name="type">form</field>
+	    <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+		<field colspan="4" context="{'address': address}" name="bank_ids" nolabel="1">
+                        <form string="Bank account">
+			    <field name="state"/>
+                            <newline/>
+                            <field name="acc_number" select="1"/>
+                            <newline/>
+                            <field name="bank"/>
+                            <newline/>
+			    <field name="iban_no"/>
+                            <newline/>
+                            <field name="bic_no"/>
+                            <newline/> 	
+                            <field name="sequence"/>
+                            <field colspan="4" name="name"/>
+                            <separator colspan="4" string="Bank account owner"/>
+                            <field colspan="4" name="owner_name"/>
+                            <field colspan="4" name="street"/>
+                            <newline/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <newline/>
+                            <field completion="1" name="country_id"/>
+                            <field name="state_id"/>	
+			</form>
+			<tree string="Bank Details">
+                            <field name="state"/>
+                            <field name="bank"/>
+                            <field name="owner_name"/>
+                            <field name="acc_number"/>
+			    <field name="iban_no" />
+			    <field name="bic_no" />	
+                        </tree>
+		</field>		
+		
+	    </field>
+	</record>  -->
+<!--	<record id="view_partner_tree_inherited" model="ir.ui.view">
+		<field name="name">res.partner.tree.inherited</field>
+		<field name="model">res.partner</field>
+		<field name="type">tree</field>
+		<field eval="8" name="priority"/>
+		<field name="inherit_id" ref="base.view_partner_tree"/>
+		<field name="arch" type="xml">
+			<field name="ref" groups="base.group_extended" position="replace" >
+				<field name="contact_address"/>
+			</field>
+            </field>
+       </record>-->
+
+<!--           <record id="view_partner_tree_inherited4" model="ir.ui.view">
+		<field name="name">res.partner.tree.inherited4</field>
+		<field name="model">res.partner</field>
+		<field name="type">tree</field>
+		<field eval="8" name="priority"/>
+		<field name="inherit_id" ref="crm.view_partners_tree_crm2"/>
+		<field name="arch" type="xml">
+			<field name="section_id" position="replace" >
+			</field>
+            </field>
+    </record>	-->
+<!--      <record id="view_partner_tree_inherited3" model="ir.ui.view">
+		<field name="name">res.partner.tree.inherited3</field>
+		<field name="model">res.partner</field>
+		<field name="type">tree</field>
+		<field eval="8" name="priority"/>
+		<field name="inherit_id" ref="base.view_partner_tree"/>
+		<field name="arch" type="xml">
+			<field name="user_id" position="before" >
+				<field name="customer" />
+			</field>
+            </field>
+    </record> -->
+<!--        <record id="view_partner_tree_inherited2" model="ir.ui.view">
+		<field name="name">res.partner.tree.inherited2</field>
+		<field name="model">res.partner</field>
+		<field name="type">tree</field>
+		<field eval="8" name="priority"/>
+		<field name="inherit_id" ref="base.view_partner_tree"/>
+		<field name="arch" type="xml">
+			<field name="country" position="after" >	
+                              <field name="zip"/>
+			</field>
+            </field>
+      </record>-->
+<!--        <record id="view_partner_tree_inherited5" model="ir.ui.view">
+		<field name="name">res.partner.tree.inherited5</field>
+		<field name="model">res.partner</field>
+		<field name="type">tree</field>
+		<field eval="8" name="priority"/>
+		<field name="inherit_id" ref="base.view_partner_tree"/>
+		<field name="arch" type="xml">
+			<field name="email" position="replace" >	
+			</field>
+            </field>
+      </record>-->
+<!-- <record id="view_partner_tree_inherited6" model="ir.ui.view">
+		<field name="name">res.partner.tree.inherited6</field>
+		<field name="model">res.partner</field>
+		<field name="type">tree</field>
+		<field eval="8" name="priority"/>
+		<field name="inherit_id" ref="base.view_partner_tree"/>
+		<field name="arch" type="xml">
+			<field name="country" position="replace" >	
+			</field>
+            </field>
+      </record> -->
+
+
+
+	<record id="view_partner_mail_form" model="ir.ui.view">
+            <field name="name">view.partner.mail.form</field>
+	    <field name="model">email.partner</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+		 <form string="mail">
+                                        <field name="date"/>
+                                        <field name="from"/>
+                                        <newline/>
+                                        <field name="name"/>
+                                        <field name="body"/>
+                  </form>
+	    </field>
+	</record>
+
+        <record id="view_partner_mail_tree" model="ir.ui.view">
+            <field name="name">view.partner.mail.tree</field>
+	    <field name="model">email.partner</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+		 <tree string="Customer Mail" editable="top" >
+                                        <field name="date"/>
+                                        <field name="from"/>
+                                        <field name="name"/>
+                                        <field name="body"/>
+                </tree>
+	    </field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_customer_mail">
+		<field name="name">Partner Mail</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">email.partner</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="view_partner_tree_inherit" model="ir.ui.view">
+
+		<field name="name">res.partner.tree.inherit</field>
+
+		<field name="model">res.partner</field>
+
+		<field name="type">tree</field>
+
+		<field eval="8" name="priority"/>
+
+		<field name="inherit_id" ref="base.view_partner_tree"/>
+
+		<field name="arch" type="xml">
+
+			<field name="email" position="attributes">
+
+                            <attribute name="invisible">1</attribute>
+
+                        </field>
+
+                        <field name="user_id" position="before">
+			    <field name="zip"/>
+
+                            <field name="customer"/>
+
+                        </field>
+
+            </field>
+
+       </record>
+
+        <record id="base.action_partner_form" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+
+            <field name="domain">['|',('is_company','=',1),('parent_id','=',False)]</field>
+            
+            <field name="context">{"search_default_customer":1,"default_is_company":1}</field>
+
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                OpenERP helps you easily track all activities related to
+                a customer; discussions, history of business opportunities,
+                documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_partner_form_address" model="ir.actions.act_window">
+            <field name="name">Customer Contacts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="context">{"search_default_customer":1}</field>-->
+            <field name="domain">[('customer','=',True),('parent_id','!=',False)]</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+
+            <!--<field name="context">{'search_default_customer': 1,'default_supplier': 0,'default_customer': 1}</field>-->
+            <field name="context">{'search_default_supplier': 0,'default_customer': 1,'default_supplier': 0}</field>
+            <field name="act_window_id" ref="base.view_partner_form"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+                </p>
+                <p>
+                OpenERP helps you easily track all activities related to
+                a customer; discussions, history of business opportunities,
+                documents, etc.
+                </p>
+            </field>
+        </record>
+
+ <menuitem id="menu_partner_form_address" parent="base.menu_sales" action="action_partner_form_address" sequence="1"/>
+
+		
+    </data>
+</openerp>

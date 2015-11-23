@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_picking_out_form_kalpa_stock_view" model="ir.ui.view">
+            <field name="name">view.stock.picking.form.kalpa</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+
+                    <xpath expr="/form/sheet/group/group[1]/field[@name='backorder_id']" position="after">
+                         <field name="location_id" on_change="location_change(location_id)"/>
+                    </xpath>
+
+		    
+
+
+<!--                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']" position="after">
+                         <field name="consignment_price"/>
+                    </xpath>
+
+                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']" position="after">
+                         <field name="user_id"/>
+                    </xpath>
+
+                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']" position="after">
+                         <field name="product_qty" on_change="onchange_quantity_price(id,consignment_price, product_qty, flag)"/>
+                    </xpath>
+
+                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']" position="after">
+                         <field name="location_dest_id"/>
+                    </xpath>
+
+                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']" position="after">
+                         <field name="rem_product_qty" invisible="1"/>
+                         <field name="id" invisible="1"/>
+                    </xpath>
+
+
+                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']" position="after">
+                        <field name="product_reference"/>
+                        <field name="product_category1"/>
+                        <field name="product_public_price"/>
+                        <field name="product_total"/>
+                    </xpath>-->
+
+<!--                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/tree/field[@name='product_qty']" position="after">
+                        <field name="product_reference"/>
+                    </xpath>-->
+
+<!--                    <xpath expr="/form/notebook/page[@string='Additional info']/field[@name='type']" position="after">
+                        <field name="user_id"/>
+                    </xpath>-->
+
+            </field>
+
+       </record>
+
+<!--        <record id="view_picking_out_form_kalpa_stock_view_out" model="ir.ui.view">
+            <field name="name">view.stock.move.form.kalpa.out</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/form/group[2]/field[@name='location_id']" position="replace">
+                        <field name="location_id"/>
+                    </xpath>
+
+                    <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/form/group[2]/field[@name='location_dest_id']" position="replace">
+                        <field name="location_dest_id"/>
+                    </xpath>
+
+
+            </field>
+            
+        </record>-->
+
+
+        <record id="view_location_form_inherit_consignment" model="ir.ui.view">
+            <field name="name">view.location.form.inherit.consignment</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                <field name="location_id" position="after">
+                    <field name="is_consignment"/>
+                </field>
+            </field>
+
+        </record>
+
+        <record id="view_move_form_inherit1" model="ir.ui.view">
+            <field name="name">stock.move.form.inherit1</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='origin_grp']/field[@name='location_id']" position="after">
+                        <field name="user_id"/>
+                        <field name="consignment_price"/>
+                </xpath>
+
+                <xpath expr="//group[@name='main_grp']" position="after">
+                        <newline/>
+                </xpath>
+                
+                <!-- Parent Location -->
+                <field name="location_id" position="replace">
+                </field>
+
+                <field name="origin" position="before">
+                    <field name="location_id" groups="stock.group_locations"/>
+                </field>
+                <field name="product_id" position="replace">
+                    <field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, False)"/>
+                </field>
+                <field name="product_qty" position="replace">
+                    <field name="product_qty" on_change="onchange_quantity_price(id,consignment_price, product_qty)" class="oe_inline"/>
+                </field>
+
+<!--                <field name="location_dest_id" position="replace">
+                    <field name="location_dest_id"/>
+                </field>-->
+
+                <field name="product_qty" position="after">
+                    <field name="rem_product_qty" invisible="1"/>
+                     <field name="id" invisible="1"/>
+                </field>
+
+                <field name="location_dest_id" position="after">
+                    <field name="product_reference"/>
+                    <field name="product_category1"/>
+                    <field name="product_public_price"/>
+                    <field name="product_total"/>
+                </field>
+
+            </field>
+        </record>
+
+
+ <!-- Res Companies Part-->
+
+         <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">view.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                    <xpath expr="//page[@string='General Information']/group[1]" position="after">
+                        <group colspan='4' col='4'>
+<!--                        <label for="invoice_logo" />-->
+                        <field name="invoice_logo" widget="image"/>
+<!--                        <label for="quotation_logo" />-->
+                        <field name="quotation_logo" widget="image"/>
+<!--                        <label for="consignment1_logo" />-->
+                        <field name="consignment1_logo" widget="image"/>
+<!--                        <label for="consignment_logo" />-->
+                        <field name="consignment_logo" widget="image"/>
+<!--                        <label for="return_consignment_logo" />-->
+                        <field name="return_consignment_logo" widget="image"/>
+<!--                        <label for="refund_invoice_logo" />-->
+                        <field name="refund_invoice_logo" widget="image"/>
+                        </group>
+                    </xpath>
+
+            </field>
+         </record>
+
+
+<!-- Consignment Locations Part-->
+
+    <record model="ir.ui.view" id="view_consignment_location">
+        <field name="name">stock.location.consignment.form</field>
+        <field name="model">stock.location</field>
+        <field name="type">form</field>
+	<field name="priority">15</field>
+        <field name="arch" type="xml">
+            <form string="Consignment Location">
+               
+                    <group col="2" colspan="2">
+                        <separator string="Location" colspan="2"/>
+                        <field name="name"/>
+                        <field name="user_id"/>
+<!--                        <label for="location_id" class="oe_edit_only"/>-->
+                    <field name="location_id"/>
+                    </group>
+                    <group col="2" colspan="2">
+                        <separator string="Additional Information" colspan="2"/>
+                        <field name="partner_id" on_change="onchange_partner_consignment(partner_id)" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True}"/>
+			
+<!--                        <field name="address_id" context="{'contact_display':'partner'}" colspan="4"/>-->
+                        <field name="company_id"/>
+<!--                        groups="base.group_multi_company" widget="selection" -->
+                    </group><!--
+-->                    <newline/>
+                    <group colspan="4">
+
+                        <field name="move_id" nolabel="1">
+                                <tree string="Internal Moves">
+
+                                    <field name="picking_id"/>
+                                    <field name="picking_date" string="Date pick"/>
+                                    <field name="product_id"/>
+                                    <field name="product_reference"/>
+                                    <field name="product_category1"/>
+                                    <field name="rem_product_qty" string="Quantity" sum="Total Quantities"/>
+                                    <field name="consignment_price"/>
+                                    <button name="%(kalpa.act_price_change)d"
+                                     string="Price Changes" type="action"
+                                     icon="gtk-convert"/>
+                                    <field name="product_public_price"/>
+                                    <field name="product_total" sum="Net Total"/>
+                                    <field name="state_add" invisible="1"/>
+                                    <field name="state"/>
+                                    <button name="change_state" type="object" string="IN" attrs="{'invisible': [('state_add', '=', 'yes')]}" icon="gtk-ok"/>
+                                    
+                                </tree>
+
+                        </field>
+                    </group><!--
+-->                    <group colspan="8" col="8">
+                        <!--<button name="create_sale_order" string="Create Sales Order" type="object" icon="gtk-apply"/>-->
+                        <button name="%(kalpa.act_return_products)d" string="Return Full" type="action" icon="gtk-convert"/>
+                        <button name="%(kalpa.act_return_products_single)d" string="Return Part" type="action" icon="gtk-convert"/>
+                        <button name="reset_state" string="Reset" type="object" icon="gtk-execute"/>
+                        <button name="%(kalpa.act_consignment_price)d" string="Consignment Price Reset" type="action" icon="gtk-execute"/>
+                        <button name="consignment_gross_total" string="Compute" type="object" icon="gtk-execute"/>
+                        <field name="tax_id" domain="[('type_tax_use','=','sale')]"/>
+                    </group><!--
+
+-->                    <group colspan="4" col="4">
+                        
+                        <newline/>
+                        <field name="gross_total"/>
+                    </group>
+
+
+              
+            </form>
+        </field>
+    </record>
+
+        <record id="view_consignment_location_tree" model="ir.ui.view">
+            <field name="name">stock.location.tree</field>
+            <field name="model">stock.location</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <tree string="Consignment Location" colors="blue:usage=='view';darkred:usage=='internal'">
+                    <field name="name"/>
+                    <field name="usage"/>
+                    <field name="stock_real" invisible="'product_id' not in context"/>
+                    <field name="stock_virtual" invisible="'product_id' not in context"/>
+		    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_location_tree2_inherit" model="ir.ui.view">
+            <field name="name">stock.location.tree</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_tree2" />
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <field name="complete_name" position="replace">
+                    <field name="name"/>
+                </field>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="action_location_consignment">
+        <field name="name">Consignment Locations</field>
+        <field name="res_model">stock.location</field>
+        <field name="view_type">form</field>
+        <field name="domain">[('usage','=','internal')]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+       <record id="action_stock_consignment_location" model="ir.actions.act_window.view">
+           <field eval="2" name="sequence"/>
+           <field name="view_mode">form</field>
+           <field name="view_id" ref="view_consignment_location"/>
+           <field name="act_window_id" ref="action_location_consignment"/>
+       </record>
+
+
+       <record id="action_stock_consignment_location_tree" model="ir.actions.act_window.view">
+           <field eval="1" name="sequence"/>
+           <field name="view_mode">tree</field>
+           <field name="view_id" ref="view_consignment_location_tree"/>
+           <field name="act_window_id" ref="action_location_consignment"/>
+       </record>
+
+   <menuitem id="menu_main_location_consignment" name="Location Consignment" parent="stock.menu_stock_root" groups="stock.group_stock_user"/>
+   <menuitem action="action_location_consignment" id="menu_action_location_consignment" parent="menu_main_location_consignment" groups="stock.group_stock_user"/>
+
+<!--        <act_window name="Products +"
+            domain="[('type','&lt;&gt;','service')]"
+            context="{'location': active_id}"
+            id="act_product_show_internal_move"
+            res_model="product.product"
+            src_model="stock.location"/>-->
+
+        <record id="stock.action_picking_tree6" model="ir.actions.act_window">
+            <field name="name">Internal Moves</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('type','=','internal')]</field>
+            <field name="context">{'contact_display': 'partner_address'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request.
+              </p><p>
+                Most operations are prepared automatically by OpenERP according
+                to your preconfigured logistics rules, but you can also record
+                manual stock movements.
+              </p>
+            </field>
+        </record>
+   </data>
+
+
+</openerp>

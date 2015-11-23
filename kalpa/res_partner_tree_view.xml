@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+	<record id="view_inherit_location_search" model="ir.ui.view">
+            <field name="name">stock.location.inherit.search</field>
+            <field name="model">stock.location</field>
+	    <field name="inherit_id" ref="stock.view_location_search" />
+	    <field name="type">search</field>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='location_id']" position="after">
+			<field name="partner_id"/>
+			<field name="usage"/>
+		</xpath>
+            </field>
+        </record>
+
+	<act_window
+            name="Sales Order"
+            id="sale_order_more_action"
+            res_model="sale.order"
+            src_model="res.partner"
+            context="{'search_default_partner_id': [active_id]}"
+            groups="analytic.group_analytic_accounting"/>
+	
+	<act_window
+            name="Consignment Location"
+            id="consignment_more_action"
+            res_model="stock.location"
+            src_model="res.partner"
+	    context="{'search_default_partner_id': [active_id]}"
+            groups="analytic.group_analytic_accounting"/>
+
+
+
+
+	<record model="ir.ui.view" id="base.res_partner_kanban_view">
+            <field name="name">res.partner.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="title"/>
+                    <field name="email"/>
+                    <field name="parent_id"/>
+                    <field name="is_company"/>
+                    <field name="function"/>
+                    <field name="phone"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="mobile"/>
+                    <field name="state_id"/>
+                    <field name="category_id"/>
+                    <field name="has_image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open">
+                                    <t t-if="record.has_image.raw_value === true">
+                                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)" class="oe_kanban_image"/>
+                                    </t>
+                                    <t t-if="record.has_image.raw_value === false">
+                                        <t t-if="record.is_company.raw_value === true">
+                                            <img t-att-src='_s + "/base/static/src/img/company_image.png"' class="oe_kanban_image"/>
+                                        </t>
+                                        <t t-if="record.is_company.raw_value === false">
+                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image"/>
+                                        </t>
+                                    </t>
+                                </a>
+                                <div class="oe_kanban_details">
+                                    <h4 class="oe_partner_heading"><a type="open"><field name="name"/></a></h4>
+                                    <div class="oe_kanban_partner_categories"/>
+                                    <div class="oe_kanban_partner_links"/>
+                                    <ul>
+                                        <li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="parent_id"/></li>
+                                        <li t-if="!record.parent_id.raw_value and record.function.raw_value"><field name="function"/></li>
+                                        <li t-if="record.parent_id.raw_value and record.function.raw_value"><field name="function"/> at <field name="parent_id"/></li>
+                                        <li t-if="record.city.raw_value and !record.country.raw_value"><field name="city"/></li>
+                                        <li t-if="!record.city.raw_value and record.country.raw_value"><field name="country"/></li>
+                                        <li t-if="record.city.raw_value and record.country.raw_value"><field name="city"/>, <field name="country"/></li>
+                                        <li t-if="record.email.raw_value"><a t-attf-href="mailto:#{record.email.raw_value}"><field name="email"/></a></li>
+					<li t-if="record.phone.raw_value"><a t-attf-href="mailto:#{record.email.raw_value}"><field name="phone"/></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+	<record id="res_partner_inherited_view" model="ir.ui.view">
+	    <field name="name">Partner View</field>
+	    <field name="model">res.partner</field>
+	    <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+		<xpath expr="//notebook/page[@string='Internal Notes']" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</xpath>
+		
+	    </field>
+	</record>
+	<record id="res_partner_inherited_tree_view" model="ir.ui.view">
+
+	    <field name="name">Partner View</field>
+
+	    <field name="model">res.partner</field>
+
+	    <field name="inherit_id" ref="base.view_partner_tree" />
+
+            <field name="type">tree</field>
+
+            <field name="arch" type="xml">
+
+		<xpath expr="//field[@name='email']" position="after">
+
+			<field name="city"/>
+
+		</xpath>
+
+		<xpath expr="//field[@name='user_id']" position="attributes">
+
+			<attribute name="invisible">0</attribute>
+
+		</xpath>
+
+	    </field>
+
+	</record>
+
+
+
+	<record id="res_partner_inherited_search_view" model="ir.ui.view">
+
+	    <field name="name">Partner View</field>
+
+	    <field name="model">res.partner</field>
+
+	    <field name="inherit_id" ref="base.view_res_partner_filter" />
+
+            <field name="type">search</field>
+
+            <field name="arch" type="xml">
+
+		<xpath expr="//field[@name='name']" position="after">
+
+			<field name="phone"/>
+
+			<field name="email"/>
+
+			<field name="city"/>
+			<field name="zip"/>
+
+		</xpath>
+	    </field>
+	</record>
+
+
+	<record id="base.action_partner_form_view1" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="base.action_partner_form"/>
+        </record>
+        <record id="base.action_partner_form_view2" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="base.action_partner_form"/>
+        </record>
+        <record id="base.action_partner_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="base.action_partner_form"/>
+        </record>
+
+    </data>
+</openerp>

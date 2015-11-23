@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+    
+    <record id="kalpa_account_report_show" model="res.groups">
+        <field name="name">Show Reporting Main Menu</field>
+    </record>
+
+    <record id="kalpa_register_payment_show" model="res.groups">
+        <field name="name">Allow Validate Customer Payment</field>
+    </record>
+
+    <record id="kalpa_see_cost_price_record" model="res.groups">
+        <field name="name">Allow to See Cost Price</field>
+    </record>
+
+    
+    
+    <!--<record id="kalpa_restrict_edit_other_created_partner_record" model="res.groups">
+        <field name="name">Allow edit Own Created Partner Record</field>
+    </record>-->
+<!--
+    <record id="kalpa_restrict_admin_invoice_record" model="res.groups">
+        <field name="name">Not allow to see Admin created Invoice</field>
+    </record>-->
+
+
+
+    <record id="kalpa_sale_person_record_rule" model="res.groups">
+        <field name="name">Sale Person Record Rule</field>
+    </record>
+
+    <!--<record id="kalpa_validate_own_invoice_record" model="res.groups">
+        <field name="name">Validate own Created Invoice</field>
+    </record>-->
+
+    
+
+   <!--Sale Person is not able to see Admin Created Invoices   -->
+
+    <!--<record id="admin_account_invoice_rule" model="ir.rule">
+        <field name="name">Not able to see ADMIN created Invoices</field>
+        <field ref="model_account_invoice" name="model_id"/>
+        <field name="domain_force">[('create_uid','!=',1)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_restrict_admin_invoice_record'))]"/>
+    </record>-->
+
+    
+
+    <!--Sale Person is not able to see Admin Created Sale Order and only process own created Sale Order  -->
+
+   <record id="kalpa_sale_order_see_all" model="ir.rule">
+        <field name="name">Kalpa All Orders</field>
+        <field ref="model_sale_order" name="model_id"/>
+        <!--<field name="domain_force">[(1,'=',1)]</field>-->
+        <field name="domain_force">[('create_uid','!=',1)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_sale_person_record_rule'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+    </record>
+
+
+    <record id="kalpa_sale_order_lines_see_all" model="ir.rule">
+        <field name="name">Kalpa All Orders Lines</field>
+        <field ref="model_sale_order_line" name="model_id"/>
+        <!--<field name="domain_force">[(1,'=',1)]</field>-->
+        <field name="domain_force">[('create_uid','!=',1)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_sale_person_record_rule'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+    </record>
+
+
+
+    <record id="kalpa_invoice_see_all" model="ir.rule">
+        <field name="name">Kalpa All Invoice</field>
+        <field ref="model_account_invoice" name="model_id"/>
+        <!--<field name="domain_force">[(1,'=',1)]</field>-->
+        <field name="domain_force">[('create_uid','!=',1)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_sale_person_record_rule'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+    </record>
+
+
+    <record id="kalpa_invoice_lines_see_all" model="ir.rule">
+        <field name="name">Kalpa All invoice Lines</field>
+        <field ref="model_account_invoice_line" name="model_id"/>
+        <!--<field name="domain_force">[(1,'=',1)]</field>-->
+        <field name="domain_force">[('create_uid','!=',1)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_sale_person_record_rule'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+    </record>
+
+
+
+    
+
+
+    <!--<record id="kalpa_sale_order_personal_rule" model="ir.rule">
+        <field name="name">Kalpa Personal Orders</field>
+        <field ref="model_sale_order" name="model_id"/>
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_sale_person_record_rule'))]"/>
+            <field eval="1" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+    </record>-->
+
+
+
+
+
+  <!--Sale Person is able to see all Partners but he can edit his own created record   -->
+<!--    <record id="partner_all_except_admin" model="ir.rule">
+        <field name="name">All Partner Except ADMIN</field>
+        <field ref="model_res_partner" name="model_id"/>
+        <field name="domain_force">[('create_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_restrict_edit_other_created_partner_record'))]"/>
+        <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="0" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+    </record>
+
+     <record id="partner_edit_own_record" model="ir.rule">
+        <field name="name">Own Created Partner</field>
+        <field ref="model_res_partner" name="model_id"/>
+        <field name="domain_force">[('create_uid','!=',1)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_restrict_edit_other_created_partner_record'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="0" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+    </record>
+
+    <record id="partner_edit_own_record_others" model="ir.rule">
+        <field name="name">Own New Created Partner</field>
+        <field ref="model_res_partner" name="model_id"/>
+        <field name="domain_force">[('create_uid','!=',1)]</field>
+        <field name="groups" eval="[(4, ref('kalpa.kalpa_restrict_edit_other_created_partner_record'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+    </record>-->
+
+
+
+
+
+</data>
+</openerp>

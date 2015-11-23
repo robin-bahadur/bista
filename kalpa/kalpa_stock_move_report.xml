@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <report auto="True" id="report_stock_move" model="stock.location" name="stock.location" rml="kalpa/report/stock_picking_move.rml" string="Consignment Order +" header="False"/>
+        <report auto="True" id="report_stock_move1" model="stock.location" name="stock.location1" rml="kalpa/report/stock_picking_move1.rml" string="Consignment Order" header="False"/>
+        <report auto="True" id="report_account_invoice" model="account.invoice" name="account.invoice2" rml="kalpa/report/account_print_invoice.rml" string="Print Invoice" header="False"/>
+        <report auto="True" id="report_stock_return" model="stock.location" name="stock.return" rml="kalpa/report/stock_return_report.rml" string="Returned Products" header="False"/>
+        <report auto="True" id="report_quotation" model="sale.order" name="quotation.order" rml="kalpa/report/quotation_report.rml" string="Orderbevestiging" header="False"/>
+        <!--report auto="True" id="report_quotation_normal" model="sale.order" name="quotation.normal" rml="kalpa/report/quotation_report_normal.rml" string="Bevestiging pakket" header="False"/-->
+    </data>
+</openerp>

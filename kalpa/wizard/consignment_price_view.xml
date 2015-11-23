@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_consignment_price" model="ir.ui.view">
+            <field name="name">Consignment Price Change</field>
+            <field name="model">consignment.price</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Consignment Price Reset">
+                    <separator string="Consignment Price Reset" colspan="4"/>
+                    <button icon='gtk-cancel' special="cancel" string="Cancel"/>
+                    <button name="return_price" string="Change Consignment Prices" type="object" icon="gtk-execute"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_consignment_price" model="ir.actions.act_window">
+            <field name="name">Assign Consignment Price</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">consignment.price</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

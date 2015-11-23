@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record id="view_import_sale_lines_wizard" model="ir.ui.view">
+            <field name="name">Import Sale Lines</field>
+            <field name="model">sale.order.lines</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Sale Lines">
+                    <separator string="Import Lines" colspan="4"/>
+                    <field name="csv_file_sale_lines" />
+
+                    <button icon='gtk-cancel' special="cancel" string="Cancel"/>
+                    <button name="generate_lines" string="Import" type="object" icon="gtk-execute"/>
+                </form>
+           </field>
+        </record>
+
+        <act_window name="Import Sale Lines"
+            res_model="sale.order.lines"
+            src_model="sale.order"
+            view_mode="form"
+            target="new"
+
+            key2="client_action_multi"
+            id="action_view_import_sale_lines_wizard"/>
+
+
+<!--       <record id="view_export_sale_xml" model="ir.ui.view">
+            <field name="name">Export Xml</field>
+            <field name="model">sale.export.xml</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export XML">
+                    <separator string="Export XML" colspan="4"/>
+                    <field name="xml_sale_order" readonly="1"  fieldname="name" colspan="4"/>
+                    <newline/>
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                    <newline/>
+                    <field name="name" readonly="1"/>
+                    <button icon='gtk-cancel' special="cancel" string="Cancel"/>
+                    <button name="export_xml" string="Export" type="object" icon="gtk-execute"/>
+                </form>
+           </field>
+        </record>-->
+
+        <act_window name="Export Sale Xml"
+            res_model="sale.export.xml"
+            src_model="sale.order"
+            view_mode="form"
+            target="new"
+
+            key2="client_action_multi"
+            id="action_view_export_sale_xml"/>
+
+   </data>
+</openerp>

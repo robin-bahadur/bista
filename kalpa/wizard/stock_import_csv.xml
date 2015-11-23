@@ -1,0 +1,314 @@
+<?xml version ="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record id="view_stock_import_consignment_list" model="ir.ui.view">
+            <field name="name">consignment.order</field>
+            <field name="model">stock.import.consignment</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Consignment">
+                    <separator string="Search for the File" colspan="4"/>
+                    <field name="csv_file_consignment" />
+                    <field name="source_location_id"/>
+                    <field name="destination_location"/>
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                    <newline/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="import_consignment" string="Import" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>
+
+
+        <act_window name="Import Consignment"
+            res_model="stock.import.consignment"
+            src_model="stock.location"
+            view_mode="form"
+            target="new"
+
+            key2="client_action_multi"
+            id="action_view_stock_import_consignment_list"/>
+
+
+
+       <record id="view_stock_import_csv_wizard_new" model="ir.ui.view">
+            <field name="name">Import Order</field>
+            <field name="model">stock.import.csv</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import CSV">
+                    <separator string="Search for the File" colspan="4"/>
+                    <field name="csv_file" />
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                    <newline/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="import_csv" string="Import" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>
+
+
+        <act_window name="Import CSV"
+            res_model="stock.import.csv"
+            src_model="stock.location"
+            view_mode="form"
+            target="new"
+
+            key2="client_action_multi"
+            id="action_view_stock_import_csv_wizard_new"/>
+
+
+<!--       <record id="view_stock_export_csv_wizard_new" model="ir.ui.view">
+            <field name="name">Export Moves</field>
+            <field name="model">stock.export.csv</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export CSV">
+                    <separator string="Export the CSV File" colspan="4"/>
+                    <group colspan="2" states="get">
+                          <field name="csv_file" string="Export" readonly="1"  fieldname="name" colspan="4"/>
+                    </group>
+
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                    <newline/>
+                    <field name="name" readonly="1"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="export_csv" string="Export" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>-->
+
+
+
+
+       <record id="view_stock_export_csv_wizard_new" model="ir.ui.view">
+            <field name="name">Export Moves</field>
+            <field name="model">stock.export.csv</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export CSV">
+                    <separator string="Export the CSV File" colspan="4"/>
+                    <group colspan="2">
+                          <field name="csv_file" string="Export" filename="name"  colspan="4"/>
+                    </group>
+
+                    <!--<field name="state"/>
+                    <newline/>
+                    <newline/>
+-->                    <field name="name"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="export_csv" string="Export" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>
+
+
+        <record id="action_view_stock_export_csv_wizard_new_inherit1" model="ir.actions.act_window">
+            <field name="name">Import Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.export.csv</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_stock_export_csv_wizard_new"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+
+        <act_window name="Export CSV"
+            res_model="stock.export.csv"
+            src_model="stock.location"
+            view_mode="form"
+            target="current"
+
+            key2="client_action_multi"
+            id="action_view_stock_export_csv_wizard_new"/>
+
+
+
+       <record id="view_product_list_export_new1" model="ir.ui.view">
+            <field name="name">Export Products</field>
+            <field name="model">product.list.export</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export Product List">
+                    <separator string="Export the CSV File" colspan="4"/>
+                    <group colspan="2" states="get">
+<!--                     <group colspan="2">-->
+                          <field name="product_csv_file" string="Export" filename="name"/>
+                    </group>
+                    
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                   
+                    <field name="name" invisible="1"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="export_product_csv" string="Export" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>
+
+
+        <act_window name="Export Product List"
+            res_model="product.list.export"
+            src_model="product.product"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_view_product_list_export_new1"/>
+
+  
+       <record id="view_product_list_export_all_products" model="ir.ui.view">
+            <field name="name">Export Products All</field>
+            <field name="model">product.list.export.all</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export Product List All">
+                    <separator string="Export the CSV File" colspan="4"/>
+                    <group colspan="2" states="get">
+<!--                    <group colspan="2">
+-->                          <field name="product_csv_file_all" string="Name" filename="name"/><!--
+-->                    </group>
+                    <newline/>
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                   
+                    <field name="name" invisible="1"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+<!--                    <button name="generate_lines" string="Export" type="object" icon="gtk-execute"/>-->
+                    <button name="export_product_csv_all" string="Export" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>
+
+
+        <act_window name="Export All Products"
+            res_model="product.list.export.all"
+            src_model="product.product"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_view_product_list_export_all_products"/>
+
+
+
+    <record id="view_consignment_quantity" model="ir.ui.view">
+            <field name="name">view.consignment.quantity</field>
+            <field name="model">consignment.quantity</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export quantity">
+                    <separator string="Export the CSV File" colspan="4"/>
+                    <group colspan="2" states="get">
+                      <field name="consignment_quantity_csv" string="Export" readonly="1"  filename="name" colspan="4"/>
+                    </group>
+                    <newline/>
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                    <field name="name" readonly="1"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="export_consignment_quantity" string="Export" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>
+
+
+        <act_window name="Consignment Quantity"
+            res_model="consignment.quantity"
+            src_model="product.product"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_view_consignment_quantity"/>
+
+
+       <record id="view_consignment_quantity_sold" model="ir.ui.view">
+            <field name="name">view.consignment.quantity.sold</field>
+            <field name="model">consignment.quantity.sold</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export quantity">
+                    <separator string="Export the CSV File" colspan="4"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <group colspan="2">
+                          <field name="consignment_quantity_csv_sold" string="Export" readonly="1"  filename="name" colspan="4"/>
+                    </group>
+                    <newline/>
+                    <field name="state" invisible="1"/>
+                    <newline/>
+                    <newline/>
+                    <field name="name" readonly="1"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="export_consignment_quantity_sold" string="Export" type="object" icon="gtk-apply"/>
+                </form>
+           </field>
+        </record>
+        <act_window name="Consignment Quantity Sold"
+            res_model="consignment.quantity.sold"
+            src_model="product.product"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_view_consignment_quantity_sold"/>
+
+
+<!--       <-->
+
+
+ 
+
+<!--        <record id="view_stock_import_csv_wizard1" model="ir.ui.view">
+            <field name="name">Import Order</field>
+            <field name="model">stock.import.csv</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import CSV">
+                    <separator string="Search for the File" colspan="4"/>
+                    <field name="csv_file" />
+                    <field name="state" invisible="1"/>
+                </form>
+           </field>
+        </record>
+
+
+         <record id="action_view_import_csv1" model="ir.actions.act_window">
+            <field name="name">Import Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.import.csv</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_stock_import_csv_wizard1"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <record model="ir.values" id="stock_location_import_view1">
+            <field name="model_id" ref="kalpa.model_stock_location" />
+            <field name="object" eval="1" />
+            <field name="name">Import CSV</field>
+            <field name="key2">client_action_multi1</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_view_import_csv1'))" />
+            <field name="key">action</field>
+            <field name="src_model">stock.location</field>
+       </record>-->
+         <!--    <record model="ir.values" id="delivery_order_exclude_faulty">
+           <field name="model_id" ref="stock.model_stock_picking" />
+           <field name="object" eval="1" />
+           <field name="name">Exclude From Faulty</field>
+           <field name="key2">client_action_multi</field>
+           <field name="value" eval="'ir.actions.act_window,' + str(ref('action_view_exclude_faulty'))" />
+           <field name="key">action</field>
+           <field name="model">stock.picking</field>
+       </record>
+ Sent at 6:49 PM on Tuesday
+
+
+        </record>-->
+
+</data>
+</openerp>

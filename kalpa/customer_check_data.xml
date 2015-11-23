@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Many2one labels Text with tickboxes -->
+         <record id="call" model="customer.check">
+            <field name="name">01 Call</field>
+         </record>
+
+         <record id="consignatie" model="customer.check">
+            <field name="name">02 Consignatie</field>
+         </record>
+         <record id="k_l_apart" model="customer.check">
+            <field name="name">03 K L Apart</field>
+         </record>
+         <record id="dreamnotes" model="customer.check">
+            <field name="name">04 Dreamnotes</field>
+         </record>
+         <record id="vulling_current" model="customer.check">
+            <field name="name">05 Vulling current</field>
+         </record>
+         <record id="vulling_previous" model="customer.check">
+            <field name="name">06 Vulling previous</field>
+         </record>
+         <record id="ledi_current" model="customer.check">
+            <field name="name">07 Ledi current</field>
+         </record>
+         <record id="ledi_previous" model="customer.check">
+            <field name="name">08 Ledi previous</field>
+         </record>
+         <record id="iny_Kalpa" model="customer.check">
+            <field name="name">09 INY Kalpa</field>
+         </record>
+         <record id="iny_rss" model="customer.check">
+            <field name="name">10 INY RSS</field>
+         </record>
+         <record id="kado_papier" model="customer.check">
+            <field name="name">11 Kado papier</field>
+         </record>
+         <record id="helma_current" model="customer.check">
+            <field name="name">12 Helma current</field>
+         </record>
+         <record id="helma_previous" model="customer.check">
+            <field name="name">13 Helma previous</field>
+         </record>
+         <record id="14" model="customer.check">
+            <field name="name">14</field>
+         </record>
+         <record id="15" model="customer.check">
+            <field name="name">15</field>
+         </record>
+         <record id="16" model="customer.check">
+            <field name="name">16</field>
+         </record>
+         <record id="no_mail" model="customer.check">
+            <field name="name">17 No mail</field>
+         </record>
+         <record id="no_call" model="customer.check">
+            <field name="name">18 No call</field>
+         </record>
+
+    </data>
+</openerp>

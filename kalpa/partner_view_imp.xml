@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_partner_tree_imp" model="ir.ui.view">
+            <field name="name">view.partner.tree.imp</field>
+            <field name="model">res.partner</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+				<tree string="Partners">
+					<field name="name" />
+					<field name="contact_address"/>
+                                        <field name="zip" />
+					<field name = "city" />
+					<field name = "phone" />
+					<field name = "customer" />
+                                        <field name = "cust_consign" />
+					<field name="user_id"/>
+				</tree>
+			</field>
+		</record>	
+		
+		
+<!--		<record id="view_partner_form_imp" model="ir.ui.view">
+            <field name="name">view.partner.form.imp</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Partners" col='1'>
+					<group col="6" colspan="4" string="Company Info">
+						<field name="name" select="1" />
+						<field domain="[('domain', '=', 'partner')]" name="title" size="0" string="Form"  widget="selection"/>                            
+						<field name="user_id" />
+					</group>
+					<group col="6" colspan="4" string="Contact Info">
+						<field colspan="6" mode="form,tree" name="address" nolabel="1" select="1" height="170">
+							<form string="Partner Contact Info">
+								<group colspan="2" col="4">
+									<field name="type" string="Type"/>
+									<field domain="[('domain', '=', 'contact')]" name="title" size="0" widget="selection"/>
+									<field name="name"/>
+									<field name="street"/>
+									<field name="street2"/>
+									<field name="sub_number"/>
+									<field name="zip"  select="1"  />
+									<field name="city" />
+									<field name="country_id" completion="1"/>
+								</group>
+								<group colspan="2" col="2" >
+									<field name="phone"/>
+									<field name="phone_no_extra" />
+									<field name="mobile" />
+									<field name="email" widget="email"/>
+								</group>
+							</form>
+							<tree string="Partner Contacts">
+                            	<field name="name"/>
+								<field name="zip"/>
+								<field name="city"/>
+								<field name="country_id"/>
+								<field name="phone"/>
+						        <field name="email"/>
+                            </tree>
+						</field>
+                                                <field name="website" widget="url" colspan="3"/>  
+					</group>
+					<group col="10" colspan="4" string="Other Info" >
+						<field name = "customer" />
+						<field name = "cust_intrested" />
+						<field name = "cust_fillers" />
+						<field name = "cust_s1" />
+						<field name = "cust_s3" />
+                                                <field name = "cust_consign" />
+						<field name = "cust_call" />
+						<field name = "cust_cald" />
+						<field name = "cust_s2" />
+						<field name = "cust_s4" />
+                                                <newline /> 
+                                                <separator string="General Notes" colspan="10" />
+                                                <newline /> 
+                                                <field name="partner_desc" nolabel="1" colspan="10"/>
+                                                <field mode="tree,form" name="notes_o2m" nolabel="1" colspan="10">
+							<tree string="Customer Notes" editable="top" >
+								<field name="date_note" />
+								<field name="cust_note" />
+							</tree>
+							<form string="Customer Notes" >
+								<field name="date_note" />
+								<field name="cust_note" />
+							</form>
+						</field>
+					</group>	
+					<group col="6" colspan="4">
+
+						<field name="per_kalpa" />
+						<field name="property_account_receivable"/>
+						<field name="property_account_payable"/>
+					</group>
+					<group col="6" colspan="4" string="Bank Details" height="80">
+						<field colspan="4" context="{'address': address}" name="bank_ids" nolabel="1">
+                        	<form string="Bank account">
+								<field name="state"/>
+								<newline/>
+								<field name="acc_number" select="1"/>
+								<newline/>
+								<field name="bank"/>
+								<newline/>
+								<field name="sequence"/>
+								<field colspan="4" name="name"/>
+								<separator colspan="4" string="Bank account owner"/>
+								<field colspan="4" name="owner_name"/>
+								<field colspan="4" name="street"/>
+								<newline/>
+								<field name="zip"/>
+								<field name="city"/>
+								<newline/>
+								<field completion="1" name="country_id"/>
+								<field name="state_id"/>
+							</form>
+							<tree string="Bank Details">
+								<field name="state"/>
+								<field name="bank"/>
+								<field name="owner_name"/>
+								<field name="acc_number"/>
+							</tree>
+						</field>
+					</group>
+					 <group col="6" colspan="4" string="General Notes">
+						<field name="partner_desc" nolabel="1" />
+					</group> 
+					<group col="6" colspan="4" string="Notes">
+						<field mode="tree,form" name="notes_o2m" nolabel="1">
+							<tree string="Customer Notes" editable="top" >
+								<field name="date_note" />
+								<field name="cust_note" />
+							</tree>
+							<form string="Customer Notes" >
+								<field name="date_note" />
+								<field name="cust_note" />
+							</form>
+						</field>
+					</group> 	
+				</form>	
+			</field>
+		</record>-->
+		
+<!--		<record id="open_view_partner_imp_all" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
+			<!-#-<field name="view_id" ref="view_partner_form_imp"/>-#->
+        </record>-->
+		
+	   <!--<record id="action_partner_form" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
+        </record>-->
+		<record id="action_partner_form2111" model="ir.actions.act_window">
+            <field name="name">Partners</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+        </record>
+        <record id="action_partner_form_view777" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_partner_tree_imp"/>
+            <field name="act_window_id" ref="action_partner_form2111"/>
+        </record>
+<!--        <record id="action_partner_form_view789" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_partner_form_imp"/>
+            <field name="act_window_id" ref="action_partner_form2111"/>
+        </record>-->
+
+<!--        <menuitem
+           action="action_partner_form2111"
+            id="menu_partner_form_all_partner"
+            parent="base.menu_address_book"
+            sequence="2"/> -->
+
+<!--        <menuitem action="open_view_partner_imp_all" id="menu_res_partner_imp_all" parent="base.menu_address_book"/> -->
+		
+	<!-- <menuitem
+            action="action_partner_form2111"
+            id="base.menu_partner_form"
+            parent="base.menu_address_book"
+            sequence="2" /> -->
+	</data>
+</openerp>
