@@ -109,7 +109,7 @@ class sale_order_lines(osv.osv_memory):
                             'uom': obj_product.uom_id and obj_product.uom_id.id or False,
                             'date': sale_browse.date_order or False,
                             })[pricelist_id.id]
-                #print "price ........",price
+              
                 if price is False:
                     raise osv.except_osv(_('Pricelist not defined !'), _('Cannot find a pricelist matching this product and quantity'))
 

@@ -40,10 +40,8 @@ class quotation_order(report_sxw.rml_parse):
     def _direct_debit(self, o):
 
         if o.partner_id.per_kalpa:
-            print "yes quotation report"
             return "ja"
         else:
-            print "no quotation report"
             return "nee"
 
     def _get_present_date(self):

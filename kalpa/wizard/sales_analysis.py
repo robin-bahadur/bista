@@ -18,7 +18,7 @@ class sales_analysis(osv.osv_memory):
     
     def generate_report(self ,cr, uid, ids, context):
         
-        print "generate report"
+    
         obj_company = self.pool.get('res.company')
         obj_sales_analysis = self.browse(cr, uid, ids[0])
         obj_current_customer = obj_sales_analysis.customer
@@ -157,7 +157,7 @@ class sales_analysis(osv.osv_memory):
 #        """)
 #        
 #        x = cr.dictfetchone()
-#        print "x data",x
+
         data = {}
         obj_cur_company = obj_company.browse(cr, uid, 1)
         data['form']={
@@ -173,7 +173,7 @@ class sales_analysis(osv.osv_memory):
             'phone' : obj_cur_company.partner_id.phone,
             'email' : obj_cur_company.partner_id.email,
         }})
-        print "datas executed"
+  
         
         cr.execute('''
                         select rp.id,rp.name as name,rp.ref,rp.vat,CASE WHEN rp.per_kalpa = True THEN
@@ -202,11 +202,11 @@ class sales_analysis(osv.osv_memory):
         else:
             title_name =""
             
-        print "test_partner_data",test_partner_data
+       
 #        name = test_partner_data['poonam']
         name = test_partner_data['name']
         name = name.replace("&","")
-        print "test_name",name
+      
         data['form'].update({'customer_info': {
             'case' : test_partner_data['case'],
             'city' : test_partner_data['city'], 
@@ -225,7 +225,7 @@ class sales_analysis(osv.osv_memory):
                         
         }})
 
-        print "data",data
+       
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'sales.annual.analysis',

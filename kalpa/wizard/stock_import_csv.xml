@@ -99,9 +99,10 @@
                     <!--<field name="state"/>
                     <newline/>
                     <newline/>
--->                    <field name="name"/>
+-->                 <field name="name"/>
                     <button special="cancel" string="Cancel" icon="gtk-cancel"/>
                     <button name="export_csv" string="Export" type="object" icon="gtk-apply"/>
+                    <button name="export_csv_all" string="Export all location" type="object" icon="gtk-apply"/>
                 </form>
            </field>
         </record>

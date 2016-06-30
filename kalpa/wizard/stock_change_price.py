@@ -35,7 +35,6 @@ class stock_change_price(osv.osv_memory):
         """ to change the consignment price of a specific
         move in the consignment locations """
 
-        print "ids",ids
         stock_move_id = context.get('active_id')
         obj_stock_move = self.pool.get('stock.move').browse(cr, uid, stock_move_id)
         quantity = obj_stock_move.rem_product_qty
@@ -53,7 +52,7 @@ class stock_change_price(osv.osv_memory):
             location_dest_id = obj_stock_move.location_dest_id.id
             obj_location = self.pool.get('stock.location').browse(cr, uid, location_dest_id)
             return_value2 = obj_location.consignment_gross_total()
-            print "Return Value",return_value2
+          
             return {'type': 'ir.actions.act_window_close'}
         else:
             return {'type': 'ir.actions.act_window_close'}
@@ -64,7 +63,7 @@ class stock_change_price(osv.osv_memory):
         
         stock_move_id = context.get('active_id')
         obj_stock_move = self.pool.get('stock.move').browse(cr, uid, stock_move_id)
-        print "Remaining quantity",obj_stock_move.consignment_price
+       
 
         return obj_stock_move.consignment_price
 

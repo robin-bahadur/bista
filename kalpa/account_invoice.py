@@ -43,11 +43,9 @@ class account_invoice(osv.osv):
                 return {'value':{'invoice_line':invoice_line}}
             else:
                 for line in invoice_line:
-                    print "line>>!!",line[2]['product_id']
                     line = line[2]
                     line.update({'discount':percent})
                     new_invoice_line.append([0, False,line])
-                    print"new_invoice_line",new_invoice_line
                 return {'value':{'invoice_line':new_invoice_line}}
         
         #if discount_on_total:

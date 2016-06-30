@@ -28,7 +28,6 @@ class consignment_price(osv.osv_memory):
                 cr.execute("UPDATE stock_move SET consignment_price=%s,product_public_price=%s,product_total=%s WHERE id=%s"%(kalpa_cons_price,product_public_price,product_total,each_move.id))
                 cr.commit()
                 i+=1
-            print "total moves in this location",i
         return {'type': 'ir.actions.act_window_close'}
 
 consignment_price()

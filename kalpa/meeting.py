@@ -73,9 +73,7 @@ class crm_meeting(osv.osv):
     def onchange_dates(self, cr, uid, ids, start_date, duration=False, end_date=False, allday=False, context=None):
 
 
-        print"ID's",ids
-        print"Start Date",start_date
-
+   
 
 
         if context is None:
@@ -245,15 +243,13 @@ class res_partner(osv.osv):
 
 
     def write(self,cr,uid,ids,vals,context=None):
-        print "vals>>>",vals
-        print"_____________________"
+      
         self.pool.get('res.partner')._sale_person_record_rule(cr,uid,ids,vals,context=None)
         return super(res_partner, self).write(cr, uid, ids, vals, context=context)
 
 
     def _get_consignment_value(self, cr, uid, ids, field_name, arg, context=None):
-        print"_____________________"
-
+      
         location_obj = self.pool.get('stock.location')
         res = {}
         for line in self.browse(cr, uid, ids, context=context):
@@ -268,13 +264,11 @@ class res_partner(osv.osv):
 
     def _get_quotation_value(self, cr, uid, ids, field_name, arg, context=None):
 
-        print"_____________________"
         no_quotation = 0
         quotation_value = 0.00
         sale_obj = self.pool.get('sale.order')
         res = {}
         for line in self.browse(cr, uid, ids, context=context):
-            print "line id",line.id
             sale_ids = sale_obj.search(cr, uid, [('partner_id','=',line.id),('state','=',['draft','sent'])])
             for each_id in sale_ids:
                 quotation_value += sale_obj.browse(cr, uid, each_id).amount_total
@@ -360,9 +354,7 @@ class res_partner(osv.osv):
 
         first_date = date(date.today().year-1, 1, 1)
         last_date = date(date.today().year-1, 12, 31)
-        print "first_date",first_date
-        print "last_date",last_date
-
+       
         for line in self.browse(cr, uid, ids, context=context):
 
             invoice_ids = obj_invoice.search(cr, uid, [('partner_id','=',line.id),('date_invoice','>=',first_date),('date_invoice','<=',last_date)])

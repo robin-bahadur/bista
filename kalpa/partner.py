@@ -71,8 +71,7 @@ class mail_compose_message(osv.TransientModel):
                     if data['body']:
                         htmldata = html2text.html2text(data['body'])
                         htmldata = htmldata.replace("&nbsp_place_holder;", "")
-                        print "data['body']>>>",data['body']
-                        print "html2tezt>>>>>",htmldata
+                       
                     mail_obj.create(cr,uid,{'from':uid,'name':data['subject'],'partner_id':partner_id[i],'date':today,'body':htmldata},context=None)
         return res
 

@@ -31,7 +31,6 @@ class sale_report(osv.osv):
 #
 #
     def init(self, cr):
-        print "inmnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
         tools.drop_view_if_exists(cr, 'sale_report')
         sale_obj=self.pool.get('sale.order')
         sale_line_obj=self.pool.get('sale.order.line')

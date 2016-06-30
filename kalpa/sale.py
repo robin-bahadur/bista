@@ -48,7 +48,7 @@ class sale_order(osv.osv):
 
             if order_line[0][2]== False:
 
-                print "len??",len(order_line)
+              
 
                 for line in range(len(order_line)):
 
@@ -68,7 +68,7 @@ class sale_order(osv.osv):
 
                     new_order_line.append([0, False,new_line])
 
-                    print"new_order_line",new_order_line
+                    
 
                     self.button_dummy(cr, uid, ids,context={})
 
@@ -102,7 +102,7 @@ class sale_order(osv.osv):
 #                discount_on_total = self.browse(cr, uid, ids[0]).discount_on_total
                 line_ids = sale_line_obj.search(cr, uid, [('order_id', '=', ids[0])])
                 for line in sale_line_obj.browse(cr, uid,line_ids):
-                    print "line >>>?",line.id
+                    
                     discount = sale_line_obj.browse(cr, uid, line.id).discount
                     sale_line_obj.write(cr, uid, [line.id], {'discount':discount})
         return res	
@@ -361,7 +361,7 @@ class sale_order_line(osv.osv):
         see line no 198 , line.line_consignment_price
         '''
 
-        print "kalpa invoice line create"
+   
         if context is None:
             context = {}
 
@@ -406,12 +406,12 @@ class sale_order_line(osv.osv):
                 pu = 0.0
                 if uosqty:
                     if line.line_consignment_price:
-                        print "inside consignment price"
+                       
                         pu = round(line.line_consignment_price * line.product_uom_qty / uosqty,
                                 self.pool.get('decimal.precision').precision_get(cr, uid, 'Sale Price'))
-                        print "pu",pu
+                       
                     else:
-                        print "second price"
+                        
                         pu = round(line.price_unit * line.product_uom_qty / uosqty,
                                 self.pool.get('decimal.precision').precision_get(cr, uid, 'Sale Price'))
                 fpos = line.order_id.fiscal_position or False

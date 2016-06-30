@@ -25,34 +25,23 @@ class account_tax(osv.osv):
         manually pushing the product_id and tax_id in the many2many table
         product_taxes_rel
         '''
-
-        print"ids",ids
         if ids:
             if boolean == True :
                 product_search = self.pool.get('product.product').search(cr,uid,[])
-                print"product_search",product_search
-#                print"ere"+1
                 tax_type = self.browse(cr,uid,ids[0]).type_tax_use
-                print "tax type" , tax_type
                 for each_prod in product_search:
     #                cr.execute ('insert into product_taxes_rel (where prod_id = %s, tax_id = %s; each_prod,ids[0])
                         template_id = self.pool.get('product.product').browse(cr, uid, each_prod).product_tmpl_id.id
                         if tax_type == 'sale' :
                             cr.execute('INSERT INTO product_taxes_rel \
                             (prod_id,tax_id) values (%s,%s)', (template_id,ids[0]))
-                            print "sale"
-
                         elif tax_type == 'purchase' :
                             cr.execute('INSERT INTO product_supplier_taxes_rel \
                             (prod_id,tax_id) values (%s,%s)', (template_id,ids[0]))
-                            print "purchase"
-
 
             else :
 
                 product_search = self.pool.get('product.product').search(cr,uid,[])
-#                print"product_search",product_search
-#                print"ere"+1
                 for each_prod in product_search:
     #                cr.execute ('insert into product_taxes_rel (where prod_id = %s, tax_id = %s; each_prod,ids[0])
                     cr.execute('delete from product_taxes_rel where \

@@ -57,22 +57,17 @@ class account_invoice(report_sxw.rml_parse):
         obj_payment_term = self.pool.get('account.payment.term')
         if o.type == 'out_refund':
             note = ""
-            print "refund"
             payterm_ids = obj_payment_term.search(self.cr, self.uid, [('refund','=',True)])
-            print "payterm_ids",payterm_ids
             if payterm_ids:
                 note = obj_payment_term.browse(self.cr, self.uid, payterm_ids[0]).note
-            print "refund note",note
             return note
         elif o.payment_term:
             if o.payment_term.direct_debit:
                 ac_ids = o.partner_id.bank_ids
-                print "ac_no",ac_ids
                 note = o.payment_term.note
                 if ac_ids:
                     ac_no = o.partner_id.bank_ids[0].acc_number
                     ac_note = note + ": " +str(ac_no)
-                    print "ac_note",ac_note
                     return ac_note
                 else:
                     return note
@@ -103,7 +98,6 @@ class account_invoice(report_sxw.rml_parse):
 
         print "invoice number in get invoice----",ob
         inv_number = ob.number
-        print"inv_number",inv_number
         return inv_number
 
 

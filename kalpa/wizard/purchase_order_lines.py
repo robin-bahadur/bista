@@ -48,7 +48,7 @@ class purchase_order_lines(osv.osv_memory):
         '''
 
         sale_id = context.get('active_id')
-        print "sale ID",sale_id
+   
 
         data = self.browse(cr, uid, ids[0])
         if not data.csv_file_sale_lines:
@@ -59,20 +59,20 @@ class purchase_order_lines(osv.osv_memory):
 
         product_inv_data = val.split("\r")
 
-        print "Product INV Data",product_inv_data,type(product_inv_data)
+     
         if len(product_inv_data)==1 and product_inv_data[0].find('\n')!=-1:
             product_inv_data = product_inv_data[0].split('\n')
 
-        print "len",len(product_inv_data)
+       
 
         for i in range(0,len(product_inv_data)):
             if i==0:
                 continue
             product_inv_data_lines = product_inv_data[i]
-            print "product_inv_data_lines",product_inv_data_lines
+         
 
             product_single_line = product_inv_data_lines.split(',')
-            print "product_single_line",product_single_line
+            
             if product_single_line[0] == '':
                 continue
 

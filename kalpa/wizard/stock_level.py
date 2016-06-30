@@ -195,7 +195,7 @@ class stock_level(osv.osv_memory):
         # conn.cursor will return a cursor object, you can use this cursor to perform queries
 	cursor = cr
         data=self.browse(cr,uid,ids)
-        print data[0].location_id.id
+        
 	# execute our Query
         buf=cStringIO.StringIO()
         writer=csv.writer(buf, 'UNIX')
@@ -341,7 +341,7 @@ class stock_level(osv.osv_memory):
 	a = csv.writer(fp, delimiter=',')
 	a.writerows(data_list)
         
-        print "EVERY THING WORKING"
+        
 #        for data in data_list:
 #            row = []
         for d in data_list:
@@ -406,32 +406,25 @@ class stock_level(osv.osv_memory):
         count=1
         for row in product_inv_data:
 #            try:
-            print"______rowww____",row
+        
             prod_data_fields = row.split(",")
-#            print prod_data_fields
+
 #            logger.error('row %s', row)
 #            continue
             if i==0:
                 i = i + 1
-
                 location_name=prod_data_fields[0].replace('"','')
-#                print location_name
                 continue
             i = i + 1
-#            print"---iiii----", i
             if i > 1:
                 prod_data=prod_data_fields
-#                print"product_nameeeee",prod_data[0].replace('"','')
                 product_default_code=prod_data[0].replace('"','')        
-#                print product_default_code
                 product_id=product_obj.search(cr,uid,[('default_code','=',product_default_code)])
-#                print"=====product_id====", product_id
                 if product_id:
                     product_data=product_obj.browse(cr,uid,product_id[0])
                     if prod_data_fields[4].replace('"','')==prod_data_fields[5].replace('"',''):
                         i = i + 1
                         continue
-#                    print"product_qtyyyyyyyy",prod_data_fields[4], prod_data_fields[4].replace('"',''),prod_data_fields[5].replace('"','')
 
                     qty=float(prod_data_fields[4].replace('"','')) - float(prod_data_fields[5].replace('"',''))
                    
@@ -439,15 +432,11 @@ class stock_level(osv.osv_memory):
                     location_id=location_obj.search(cr,uid,[('name','=','ngein')])
                     location_sourse_id=location_obj.search(cr,uid,[('name','=',location_name)])
                     res_id=res_obj.search(cr,uid,[('name','=','location_name')])
-#                    print"location",location_sourse_id,location_dest_id
-#                    print"resssss id",location_sourse_id
                     stock_picking_id = stock_move_obj.search(cr, uid, [('product_id','=',product_data.id),('location_id','=',location_sourse_id[0])])
-                    print stock_picking_id
                     # for stock_move in stock_move_obj.browse(cr,uid,stock_picking_id):
                     if stock_picking_id:
                         stock_move = stock_move_obj.browse(cr,uid,stock_picking_id[0])
                         if stock_move.picking_id:
-                            print"==stock_move_picking_id=",stock_move.picking_id
                             stock_move_picking_id=stock_move.picking_id.id
                         # continue
                     else:  
@@ -456,7 +445,6 @@ class stock_level(osv.osv_memory):
                                 'type' : 'internal',
                         })
                         stock_move_picking_id = picking_id
-                        print"==picking_id=8888=",stock_move_picking_id
                                 # continue
                     # if stock_move_picking_id:
                     # print"==picking_id==",stock_move_picking_id
@@ -474,24 +462,16 @@ class stock_level(osv.osv_memory):
                             'state':'done',
                             'picking_id':stock_move_picking_id
                         }
-                        print"===val===", val
                         stock_move_id = stock_move_obj.create(cr ,uid,val)
-#                        print"===lfinal===", stock_move_id
-#                        print count+1
                     elif qty < 0:
-                        print"negative",stock_picking_id
                         qty=qty*(-1)
                         for stock_move in stock_move_obj.browse(cr,uid,stock_picking_id):
-                            print"stock_move",stock_move,stock_move.product_qty,stock_move.location_id.name
                             if stock_move.product_qty == qty :
-                                print "=============eqaul qty==========="
                                 stock_move_obj.write(cr,uid,stock_move.id,{'location_id':location_id[0]})
                                 break
                             elif stock_move.product_qty < qty :
                                 qty -=  stock_move.product_qty
-                                print "=========qty is less================"
                                 stock_move_obj.write(cr,uid,stock_move.id,{'location_id':location_id[0]})
-                            print"reduce qty",qty
                             if qty < 1:
                                 break;
         return True

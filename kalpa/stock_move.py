@@ -95,7 +95,6 @@ class stock_move(osv.osv):
         if not ids:
             result['name'] = product.partner_ref
         if loc_id:
-            print"loc_id++++++++++++",loc_id
             result['location_id'] = loc_id
         if loc_dest_id:
             result['location_dest_id'] = loc_dest_id
@@ -448,13 +447,13 @@ class stock_location(osv.osv):
             if len(object_move):
                 for ob in object_move:
                     data=self.pool.get('stock.move').browse(cr,uid,ob)
-                    print"----->>", data.price_unit,data.consignment_price,data.product_total
+                   
                     move_ids.append(ob)
 
         if len(ids):
             rid = ids[0]
             result[rid] = move_ids
-            print "resuylt",result
+           
             return result
         else:
             return False
@@ -465,7 +464,7 @@ class stock_location(osv.osv):
         this function is used to compute the gross total of the moves in the consignment
         adding the taxes too
         '''
-        print "Location Gross",ids
+      
         obj_stock_move_lines = self.browse(cr, uid, ids[0]).move_id
 
         consignment_total = 0
@@ -474,7 +473,7 @@ class stock_location(osv.osv):
         tax_percentage = self.browse(cr, uid, ids[0]).tax_id.amount
         if tax_percentage:
             consignment_total += tax_percentage * consignment_total
-        print "Consignment Total",consignment_total
+        
         return_value = self.write(cr, uid, ids[0],{'gross_total':consignment_total})
         return True
 
@@ -494,7 +493,7 @@ class stock_location(osv.osv):
         Writing function for generating sales order and populating the
         order lines from the internal moves according to the location
         '''
-        print "IDS CSV",ids[0]
+       
         obj_stock_location = self.browse(cr, uid, ids[0])
         if not obj_stock_location.partner_id.id:
             raise osv.except_osv(_('Partner info Missing !'), _('Please select a Proper Partner for the Location'))
@@ -507,19 +506,16 @@ class stock_location(osv.osv):
         supplier_data = self.pool.get('res.partner').browse(cr, uid, partner_id , context=context)
         pricelist_id = supplier_data.property_product_pricelist and supplier_data.property_product_pricelist.id or False
         user_id = supplier_data.user_id.id or False
-        print "Product Pricelist",pricelist_id
-
-
+       
         if obj_stock_location.partner_id.property_payment_term.id:
             payment_term = obj_stock_location.partner_id.property_payment_term.id
-
         else:
             #raise osv.except_osv(_('Payment Term Missing !'), _('Please select a Payment Term for the customer'))
-	    print ""
+	   
 	    search_payment_term = self.pool.get('account.payment.term').search(cr,uid,[('name','=','60 Dagen')])
 	    for m in self.pool.get('account.payment.term').browse(cr,uid,search_payment_term):
 			payment_term=m.id
-			print "payment-term",payment_term
+			
         gen_sale_id = obj_sale_order.create(cr, uid, {
             #'partner_id' : partner_id,
 	    'partner_id' : pid,
@@ -534,15 +530,11 @@ class stock_location(osv.osv):
             'payment_term' : payment_term,
 	    'user_id':user_id or uid,
         })
-        print "Generated sale ID",gen_sale_id
-
-
         obj_internal_ids = self.pool.get('stock.move').search(cr, uid, [('location_dest_id','=',ids[0]),('state_add','=','yes')])
         for eachid in obj_internal_ids:
             obj_each_internal_move = self.pool.get('stock.move').browse(cr, uid, eachid)
             ret = obj_each_internal_move.write({'state_add':'no'})
-            print"Ret",ret
-            print "OBJinternal",obj_each_internal_move.product_id.id
+            
             obj_saleorder_line = self.pool.get('sale.order.line')
             sale_order_id = obj_saleorder_line.create(cr ,uid, {
                 'product_id' : obj_each_internal_move.product_id.id,
@@ -580,9 +572,9 @@ class stock_location(osv.osv):
 
 
     def onchange_partner_consignment(self, cr, uid, ids, partner_id):
-        print "partner",partner_id
+     
         res_partner_ids = self.pool.get('res.partner').search(cr, uid, [('id','=',partner_id)])
-        print "res_partner_ids",res_partner_ids
+        
 
         vals = {
             'address_id' : res_partner_ids,
@@ -590,55 +582,53 @@ class stock_location(osv.osv):
 
         return {'value' : vals }
 
-    def export_data(self, cr, uid, ids, context=None):
-        print"Id dheeraj:",ids
-        print "ID context",context
-        datas = []
-        datas.append("Database_ID")
-        datas.append("Reference")
-        datas.append("Date")
-        datas.append("Product")
-        datas.append('Product_Reference_Code')
-        datas.append("Category")
-        datas.append("Quantity")
-        datas.append("Consignment_Price")
-        datas.append("Public_Price")
-        datas.append("Total")
-        buf=cStringIO.StringIO()
-        writer=csv.writer(buf, 'UNIX', delimiter=' ')
-        print"Writer",writer
-        print"Datas",datas
-        print "List",csv.list_dialects()
-        pls_write = writer.writerow(datas)
-        datas = []
-        print "idsFinal",ids
-        for location_data in self.pool.get('stock.location').browse(cr,uid,ids):
-            print 'move_id',location_data.move_id
-            move_objs = location_data.move_id
-            print "move_objs",move_objs
-            for move_obj in move_objs:
-                datas.append(move_obj.id)
-                datas.append(move_obj.picking_id.name)
-                date_picking = move_obj.picking_date
-                date_parts = date_picking.split(' ')
-                print "date parts",date_parts
-                delimeter = ''
-                picking_date_new= delimeter.join(date_parts)
-                datas.append(move_obj.picking_date)
-                print "Stripped string",move_obj.product_id.name.strip()
-                datas.append(move_obj.product_id.name)
-                datas.append(move_obj.product_id.default_code)
-                datas.append(move_obj.product_category1.name)
-                datas.append(move_obj.product_qty)
-                datas.append(move_obj.consignment_price)
-                datas.append(move_obj.product_public_price)
-                datas.append(move_obj.product_total)
-                pls_write = writer.writerow(datas)
-                datas = []
-        out=base64.encodestring(buf.getvalue())
-        print "out",base64.decodestring(out)
-        buf.close()
-        return self.write(cr, uid, ids, {'state':'get', 'exportfile_csv':out})
+    #def export_data(self, cr, uid, ids, context=None):
+        
+     #   datas = []
+     #   datas.append("Database_ID")
+     #   datas.append("Reference")
+     #   datas.append("Date")
+     #   datas.append("Product")
+     #   datas.append('Product_Reference_Code')
+     #   datas.append("Category")
+     #   datas.append("Quantity")
+     #   datas.append("Consignment_Price")
+     #   datas.append("Public_Price")
+     #   datas.append("Total")
+     #   buf=cStringIO.StringIO()
+     #   writer=csv.writer(buf, 'UNIX', delimiter=' ')
+     
+     #   print "List",csv.list_dialects()
+     #   pls_write = writer.writerow(datas)
+     #   datas = []
+        
+     #   for location_data in self.pool.get('stock.location').browse(cr,uid,ids):
+            
+     #       move_objs = location_data.move_id
+           
+     #       for move_obj in move_objs:
+     #           datas.append(move_obj.id)
+     #           datas.append(move_obj.picking_id.name)
+     #           date_picking = move_obj.picking_date
+     #           date_parts = date_picking.split(' ')
+                
+     #           delimeter = ''
+     #           picking_date_new= delimeter.join(date_parts)
+     #           datas.append(move_obj.picking_date)
+              
+     #           datas.append(move_obj.product_id.name)
+     #           datas.append(move_obj.product_id.default_code)
+     #           datas.append(move_obj.product_category1.name)
+     #           datas.append(move_obj.product_qty)
+     #           datas.append(move_obj.consignment_price)
+     #           datas.append(move_obj.product_public_price)
+     #           datas.append(move_obj.product_total)
+     #           pls_write = writer.writerow(datas)
+     #           datas = []
+     #   out=base64.encodestring(buf.getvalue())
+     #   print "out",base64.decodestring(out)
+     #   buf.close()
+     #   return self.write(cr, uid, ids, {'state':'get', 'exportfile_csv':out})
 
 
 #        return self.write(cr, uid, ids, {'state':'get', 'exportfile_csv':out , 'csv_name':})

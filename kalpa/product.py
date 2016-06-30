@@ -28,14 +28,11 @@ class product_product(osv.osv):
                     for gid in assigned_gid:
                         group_name = group_obj.browse(cr,uid,gid[0],context).name
                         if group_name == 'Sale Person Record Rule' and create_uid[0][0] != uid:
-                            print "create_uid[0][0]****",create_uid[0][0]
-                            print "uid****",uid
                             raise osv.except_osv(('Error !'), ('You are not authorized Person to Update the Record'))
 
 
 
     def write(self,cr,uid,ids,vals,context=None):
-        print "vals>>>",vals
         self._sale_person_record_rule(cr,uid,ids,vals,context=None)
         return super(product_product, self).write(cr, uid, ids, vals, context=context)
 

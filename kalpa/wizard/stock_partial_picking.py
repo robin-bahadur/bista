@@ -70,7 +70,6 @@ class stock_partial_picking(osv.osv_memory):
 
         obj_stock_location=self.pool.get('stock.location')
         active_id=context.get('active_id','')
-        print"active_id==============",active_id
         stock_picking_out_obj=self.pool.get('stock.picking.out')
         stock_brows_obj=stock_picking_out_obj.browse(cr,uid,active_id)
 	

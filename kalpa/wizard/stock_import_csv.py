@@ -18,7 +18,97 @@ class stock_export_csv(osv.osv_memory):
     _name = "stock.export.csv"
 
     _description = "Export CSV"
+    
+    def moves_extract(self,cr,uid,ids,location,dest_id):
+        result = {}
 
+        picking_ids = self.pool.get('stock.picking').search(cr, uid ,[('type','=','internal')])
+#        picking_ids = self.pool.get('stock.picking').search(cr, uid ,[])
+        move_ids = []
+        print picking_ids
+        print location
+        for pid in picking_ids:
+            
+            object_move = self.pool.get('stock.move').search(cr, uid, [('picking_id','=',pid),('location_dest_id','in',[dest_id]),('state','=','done'),('rem_product_qty','>',0)])
+#            object_move = self.pool.get('stock.move').search(cr, uid, [('picking_id','=',pid),('name','=',location),('state','=','done'),('rem_product_qty','>',0)])
+#            object_move = self.pool.get('stock.move').search(cr, uid, [('picking_id','=',pid),('location_dest_id','in',ids)])
+            if len(object_move):
+                for ob in object_move:
+                    data=self.pool.get('stock.move').browse(cr,uid,ob)
+                    move_ids.append(ob)
+        print move_ids
+#        if len(move_ids):
+#            rid = ids[0]
+#            result[rid] = move_ids
+           
+        return move_ids
+#        else:
+#            return False
+    
+    
+    def export_csv_all(self, cr, uid, ids, context=None):
+        print context
+        datas = []
+        datas.append("Location")
+        datas.append("Date pick")
+        datas.append("Reference")
+        datas.append("Quantity")
+        datas.append("Cost price")
+        datas.append("Consignment price")
+        datas.append("Public price")
+#        datas.append("Category")
+#        datas.append("Quantity")
+#        datas.append("Consignment_Price")
+#        datas.append("Public_Price")
+#        datas.append("Total")
+        buf=cStringIO.StringIO()
+        writer=csv.writer(buf, 'UNIX', delimiter=' ')
+     
+        print "List",csv.list_dialects()
+        pls_write = writer.writerow(datas)
+        datas = []
+        if context.get('active_ids'):
+            for location_data in self.pool.get('stock.location').browse(cr,uid,context['active_ids']):
+               print "location_data",location_data
+               print "location_data",location_data.name
+               dest_id=location_data.id
+               location=location_data.name
+#               move_objs = location_data.move_id
+              
+               move_objs=self.moves_extract(cr,uid,ids,location,dest_id)
+#               move_objs = location_data.move_id
+               print "move_objs",move_objs
+               if len(move_objs):
+                    for move_obj in self.pool.get('stock.move').browse(cr,uid,move_objs):
+     #                    datas.append(move_obj.id)
+
+                         datas.append(location_data.name)
+                         date_picking = move_obj.picking_date
+                         date_parts = date_picking.split(' ')
+
+                         delimeter = ''
+                         picking_date_new= delimeter.join(date_parts)
+                         datas.append(move_obj.picking_date)
+                         datas.append(move_obj.product_id.default_code)
+#                         datas.append(move_obj.product_qty)
+                         datas.append(move_obj.rem_product_qty)
+                         datas.append(move_obj.product_id.standard_price)
+     #                    datas.append(move_obj.product_id.name)
+     #                    datas.append(move_obj.product_id.default_code)
+     #                    datas.append(move_obj.product_category1.name)
+
+                         datas.append(move_obj.consignment_price)
+                         datas.append(move_obj.product_public_price)
+                         print'move_objs', datas
+     #                    datas.append(move_obj.product_total)
+
+                         pls_write = writer.writerow(datas)
+                         datas = []
+            out=base64.encodestring(buf.getvalue())
+#                    print "out",base64.decodestring(out)
+            buf.close()
+            return self.write(cr, uid, ids[0], {'state':'get', 'csv_file':out,'name':'Consignment per line.csv'},context=None)
+    
 
     def export_csv(self, cr, uid, ids, context=None):
         '''
@@ -266,7 +356,7 @@ class stock_import_csv(osv.osv_memory):
 
                 ##############
                 user_id = self.pool.get('res.partner').browse(cr ,uid ,partner_id).user_id
-                #print "user_id...........",user_id
+               
                 ##############
 
                 obj_sale_order = self.pool.get('sale.order')
@@ -501,7 +591,7 @@ class stock_import_consignment(osv.osv_memory):
         obj_picking.log(cr, uid, picking_id, message)
         status_delivery = self.pool.get('stock.picking').action_done(cr, uid, [picking_process_id])
         if active_id:
-            print "active_id>>>",active_id
+           
             self.pool.get('stock.location').consignment_gross_total(cr, uid, [active_id], context=None)
 	return True
 
@@ -621,7 +711,7 @@ class product_list_export_all(osv.osv_memory):
         function to export all products irrespective of their stock availibility
         this csv can only be used in either importing consignment or importing sale lines
         '''
-        print"exportttttttttttt"
+      
         obj_product = self.pool.get('product.product')
 
         datas = []
@@ -840,12 +930,12 @@ class consignment_quantity_sold(osv.osv_memory):
             cr.execute("select id from sale_order_line where create_date BETWEEN %s and %s and stock_move_id>0 and product_id=%s",(start_date,end_date,each_product_id))
             sale_line_ids = filter(None, map(lambda x:x[0], cr.fetchall()))
             # sale_line_ids=cr.fetchall()
-            print sale_line_ids
+          
             if len(sale_line_ids):
                 for line_id in sale_line_ids:
-                    print line_id
+                    
                     obj_sale_line = obj_sale_order_line.browse(cr, uid, line_id)
-                    print obj_sale_line
+                    
                     if obj_sale_line.order_id:
                         if not obj_sale_line.order_id.shipped:
                             continue
@@ -861,7 +951,7 @@ class consignment_quantity_sold(osv.osv_memory):
         date = time.strftime('%Y%m%d')
         string = str(date)
         string +='Consignment_Qty_Sold.csv'
-        print string
+       
         
         self.write(cr, uid, ids, {'state':'get', 'consignment_quantity_csv_sold':out,'name': string})
         return {

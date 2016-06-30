@@ -136,8 +136,7 @@ class res_partner(osv.osv):
             try:
                 proxy = self.pool.get('ir.model.data')
                 result = proxy.get_object_reference(cr, uid, 'kalpa', 'call')
-                print"-------------",result
-                print"-------------",result[1]
+               
                 
                 return result[1]
             except Exception, ex:
