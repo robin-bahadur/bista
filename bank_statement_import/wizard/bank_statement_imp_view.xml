@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record id="view_import_bank_statement_wizard" model="ir.ui.view">
+            <field name="name">Import Bank Statements</field>
+            <field name="model">bank.stmnt.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Bank Statements">
+		              <field name="import_file" filename="filename"/>
+		              <field name="filename"   invisible="1"/> 
+		              <group></group>  
+		              <group>
+		                    <button name="imp_file" string="Import" type="object" icon="gtk-execute"/>
+		                    <button icon='gtk-cancel' special="cancel" string="Cancel"/>     
+		              </group>             
+                </form>
+           </field>
+        </record>
+
+       <record id="bank_statement_import_action" model="ir.actions.act_window">
+            <field name="name">Import Bank Statement</field>
+            <field name="res_model">bank.stmnt.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_import_bank_statement_wizard"/>
+            <field name="target">new</field>
+        </record>
+        
+		  <menuitem id="bank_statement_imp_menu" name="Import Bank Statement" 
+		  	action="bank_statement_import_action" parent="account.menu_finance_bank_and_cash"/>
+		
+   </data>
+</openerp>

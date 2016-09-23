@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="company_inherit_view" model="ir.ui.view">
+            <field name="name">company.inherit.view</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+          <field name="type">form</field>
+            <field name="arch" type="xml">           
+             <xpath expr="//page[@string='General Information']" position="after">             		
+            	  <page string="Bank Details">
+                        <field name="bank_lines">
+                          	<tree string="Bank Details" editable="top" >
+                                <field name="search_word"/>
+                                <field name="account"/>
+								<field name="sales_tax"/>
+                          	</tree>
+                        </field>
+                   </page> 	
+ 			 </xpath>
+            </field>
+         </record>              
+    </data>
+</openerp>
