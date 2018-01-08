@@ -22,8 +22,7 @@ class sales_analysis(osv.osv_memory):
         obj_company = self.pool.get('res.company')
         obj_sales_analysis = self.browse(cr, uid, ids[0])
         obj_current_customer = obj_sales_analysis.customer
-        obj_current_fiscal_year = obj_sales_analysis.fiscal_year
-        
+        obj_current_fiscal_year = obj_sales_analysis.fiscal_year        
 #        cr.execute("""
 #              select min(ail.id) as id,
 #                    ai.date_invoice as date,
@@ -173,7 +172,7 @@ class sales_analysis(osv.osv_memory):
             'phone' : obj_cur_company.partner_id.phone,
             'email' : obj_cur_company.partner_id.email,
         }})
-  
+        
         
         cr.execute('''
                         select rp.id,rp.name as name,rp.ref,rp.vat,CASE WHEN rp.per_kalpa = True THEN
@@ -190,6 +189,8 @@ class sales_analysis(osv.osv_memory):
         
         '''%(obj_current_customer.id))
         test_partner_data = cr.dictfetchone()
+        if not test_partner_data:
+            test_partner_data = {}
         cr.execute("select acc_number from res_partner_bank where partner_id=%s"%(obj_current_customer.id))
         acc_data = cr.dictfetchone()
         if acc_data:
@@ -197,34 +198,32 @@ class sales_analysis(osv.osv_memory):
         else:
             test_partner_data.update({'acc_number': None})
             
-        if test_partner_data['title']:
+        if test_partner_data.get('title',''):
             title_name = self.pool.get('res.partner.title').browse(cr, uid, test_partner_data['title']).name
         else:
             title_name =""
-            
-       
+        
 #        name = test_partner_data['poonam']
-        name = test_partner_data['name']
+        name = test_partner_data.get('name','')
         name = name.replace("&","")
       
         data['form'].update({'customer_info': {
-            'case' : test_partner_data['case'],
-            'city' : test_partner_data['city'], 
+            'case' : test_partner_data.get('case',''),
+            'city' : test_partner_data.get('city',obj_current_customer.city), 
 #            'poonam' : name,
-            'name':test_partner_data['name'],
-            'zip' : test_partner_data['zip'],
+            'name':test_partner_data.get('name',obj_current_customer.name),
+            'zip' : test_partner_data.get('zip',obj_current_customer.zip),
             'title' : title_name,
-            'phone' : test_partner_data['phone'],
-            'street' : test_partner_data['street'],
-            'contact_name' : test_partner_data['contact_name'],
-            'ref' : test_partner_data['ref'],
-            'email' : test_partner_data['email'],
-            'vat' : test_partner_data['vat'],
-            'acc_number' : test_partner_data['acc_number'],
-            'signature' : test_partner_data['signature'],
+            'phone' : test_partner_data.get('phone',obj_current_customer.phone),
+            'street' : test_partner_data.get('street',obj_current_customer.street),
+            'contact_name' : test_partner_data.get('contact_name',obj_current_customer.contact_name),
+            'ref' : test_partner_data.get('ref',obj_current_customer.ref),
+            'email' : test_partner_data.get('email',obj_current_customer.email),
+            'vat' : test_partner_data.get('val',obj_current_customer.vat),
+            'acc_number' : test_partner_data.get('acc_number',''),
+            'signature' : test_partner_data.get('signature',''),
                         
         }})
-
        
         return {
             'type': 'ir.actions.report.xml',

@@ -320,159 +320,86 @@ class stock_import_csv(osv.osv_memory):
 
 
     def import_csv(self, cr, uid, ids, context):
-
         '''
         Code to import csv and generate a sale order,confirm the order,prepare a delivery order
         and also a draft invoice
         '''
-
-        data = self.pool.get('stock.import.csv').browse(cr, uid, ids[0])
+        sale_obj=self.pool.get('sale.order')
+        obj_saleorder_line = self.pool.get('sale.order.line')
+        picking_obj=self.pool.get('stock.picking')
+        move_obj = self.pool.get('stock.move')
+        partner_obj = self.pool.get('res.partner')
+        location_obj = self.pool.get('stock.location')
+        data = self.browse(cr, uid, ids[0])
         if not data.csv_file:
             raise osv.except_osv(_('CSV Error !'), _('Please select a .csv file'))
-        module_data = data.csv_file
-        val = base64.decodestring(module_data)
-
-        product_inv_data = val.split("\r")
+        product_inv_data = base64.decodestring(data.csv_file).split("\r")
         loc_id = active_id = ''
         if len(product_inv_data)==1 and product_inv_data[0].find('\n')!=-1:
             product_inv_data = product_inv_data[0].split('\n')
-
         for i in range(0,len(product_inv_data)):
             product_inv_data_lines = product_inv_data[i]
-
-            
             if i==0:
                 active_id = context.get('active_id')
-                obj_stock_location = self.pool.get('stock.location').browse(cr, uid, active_id)
-
-                #pid = obj_stock_location.address_id.id
-		pid = obj_stock_location.partner_id.id
-
-                if not pid:
+                obj_stock_location = location_obj.browse(cr, uid, active_id)
+                partner_id = obj_stock_location.partner_id.id
+                if not partner_id:
                     raise osv.except_osv(_('Partner info Missing !'), _('Please select a Proper Partner for the Location'))
-
-                #partner_id = obj_stock_location.address_id.partner_id.id
-		partner_id = obj_stock_location.partner_id.id
-
-                ##############
-                user_id = self.pool.get('res.partner').browse(cr ,uid ,partner_id).user_id
-               
-                ##############
-
-                obj_sale_order = self.pool.get('sale.order')
-                supplier_data = self.pool.get('res.partner').browse(cr, uid, partner_id , context=context)
+                user_id = partner_obj.browse(cr ,uid ,partner_id).user_id
+                supplier_data = partner_obj.browse(cr, uid, partner_id , context=context)
                 pricelist_id = supplier_data.property_product_pricelist and supplier_data.property_product_pricelist.id or False
-
                 if obj_stock_location.partner_id.property_payment_term.id:
                     payment_term = obj_stock_location.partner_id.property_payment_term.id
-
                 else:
                     raise osv.except_osv(_('Payment Term Missing !'), _('Please select a Payment Term for the customer'))
-
-
-                gen_sale_id = obj_sale_order.create(cr, uid, {
+                gen_sale_id = sale_obj.create(cr, uid, {
                     'partner_id' : partner_id,
-                    'partner_order_id' : pid,
-                    'partner_invoice_id' : pid,
-                    'order_policy': 'picking', ### server_update
-#		    'order_policy':'prepaid',
-                    'partner_shipping_id' : pid,
+                    'partner_invoice_id' : partner_id,
+                    'order_policy': 'picking',
+                    'partner_shipping_id' : partner_id,
                     'pricelist_id' : pricelist_id,
                     'origin' : obj_stock_location.name,
                     'note' : obj_stock_location.name,
                     'payment_term' : payment_term,
-                    ###########
                     'user_id' : user_id and user_id.id or uid,
-                    ###########
                 })
-
-                
-
-
             else:
-               
                 product_single_line = product_inv_data_lines.split(',')
-         
-
-                if product_single_line[0] == '\n':
-
+                prod_single_line = product_single_line[0]
+                if prod_single_line == '\n':
                     continue
-
-                obj_saleorder_line = self.pool.get('sale.order.line')
-                if product_single_line[0] and product_single_line[0]!='':
-
-                   
+                if prod_single_line and prod_single_line!='':
                     loc_id = product_single_line[10]
-                    move_id = int(product_single_line[7])
-                    obj_each_internal_move = self.pool.get('stock.move').browse(cr, uid, move_id)
-
-                    if int(product_single_line[0]) > obj_each_internal_move.rem_product_qty:
+                    move_id = int(product_single_line[-4])
+                    obj_each_internal_move = move_obj.browse(cr, uid, move_id)
+                    if int(prod_single_line) > obj_each_internal_move.rem_product_qty:
                         raise osv.except_osv(_('Exceeding Quantity !'), _('Meer verkocht dan de voorraad'))
-
-                    obj_saleorder_line = self.pool.get('sale.order.line')
-                    #tax_id = obj_each_internal_move.product_id.taxes_id[0].id
-                   
-                    
-                    sale_order_id = obj_saleorder_line.create(cr ,uid, {
+                    obj_saleorder_line.create(cr ,uid, {
                         'product_id' : obj_each_internal_move.product_id.id,
                         'product_uom' : obj_each_internal_move.product_uom.id,
                         'name' : obj_each_internal_move.product_id.name,
                         'line_consignment_price' : obj_each_internal_move.consignment_price,
-                        #'price_unit' : obj_each_internal_move.product_id.list_price,
                         'price_unit' : obj_each_internal_move.consignment_price,
                         'order_id' : gen_sale_id,
-                        'product_uom_qty' : product_single_line[0],
-                        'stock_move_id' : move_id,
-                        
-
+                        'product_uom_qty' : prod_single_line,
+                        'stock_move_id' : move_id
                     })
-                    
-                    #cr.execute('insert into sale_order_tax(order_line_id,tax_id) values(%s,%s)',(sale_order_id,tax_id))
-
-        sale_obj=self.pool.get('sale.order')
-      
-
         sale_obj.action_invoice_create(cr, uid, [gen_sale_id], grouped=False, states=['draft'], date_invoice =time.strftime('%Y-%m-%d %H:%M:%S'), context=None)
-       
-
-        obj_confirm_sale =  self.pool.get('sale.order').browse(cr, uid, gen_sale_id)
-        
-        wf_service = netsvc.LocalService("workflow") #to generate a workflow object
-        
-        status = wf_service.trg_validate(uid, 'sale.order', gen_sale_id, 'order_confirm', cr) # to invoke a workflow to confirm the sale order
-        
-        picking_id = self.pool.get('stock.picking').search(cr, uid, [('sale_id','=',gen_sale_id)])
-        pick_obj=self.pool.get('stock.picking.out')
-        pick_obj.write(cr,uid,picking_id,{'invoice_state':'invoiced'})
-        
-        so_name = self.pool.get("sale.order").browse(cr, uid, gen_sale_id, context=context).name
-    
-        move_id = self.pool.get('stock.move').search(cr, uid, [('origin','=',so_name)])
-        for i in move_id:                                       #changes made by hitesh
-            self.pool.get('stock.move').write(cr, uid, i, {'location_id':loc_id})
-        status_delivery = self.pool.get('stock.picking').action_done(cr, uid, picking_id)
-
-        if status_delivery:
-          
-            obj_confirm_sale.write({'shipped':True})
-        
-            
-
-        vals={'state':'done'}
-       
-        sale_obj.write(cr,uid,[gen_sale_id],vals) ###new_server_update
+        netsvc.LocalService("workflow").trg_validate(uid, 'sale.order', gen_sale_id, 'order_confirm', cr) # to invoke a workflow to confirm the sale order
+        picking_id = picking_obj.search(cr, uid, [('sale_id','=',gen_sale_id)])
+        self.pool.get('stock.picking.out').write(cr,uid,picking_id,{'invoice_state':'invoiced'})
+        order_rec = sale_obj.browse(cr, uid, gen_sale_id, context=context)
+        for i in move_obj.search(cr, uid, [('origin','=',order_rec.name)]): #changes made by hitesh
+            move_obj.write(cr, uid, i, {'location_id':loc_id})
+        if picking_obj.action_done(cr, uid, picking_id):
+            order_rec.write({'shipped':True})
+        sale_obj.write(cr,uid,[gen_sale_id],{'state':'done'}) ###new_server_update
         if active_id:
-          
-
-            self.pool.get('stock.location').consignment_gross_total(cr, uid, [active_id], context=None)
-
-
-
+            location_obj.consignment_gross_total(cr, uid, [active_id], context=None)
         return True
 
 #####new_new_new_server_update
 stock_import_csv()
-
 
 class stock_import_consignment(osv.osv_memory):
 
