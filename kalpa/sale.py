@@ -311,39 +311,40 @@ class sale_order(osv.osv):
         assert len(ids) == 1, 'This option should only be used for a single id at a time.'
         wf_service = netsvc.LocalService('workflow')
         wf_service.trg_validate(uid, 'sale.order', ids[0], 'order_confirm', cr)
-        wf_service = netsvc.LocalService("workflow")
         obj_picking=self.pool.get('stock.picking')
         obj_stock_move=self.pool.get('stock.move')
         search_id=obj_picking.search(cr, uid, [('sale_id','=',ids[0])])
-        journal_id=self.pool.get('stock.invoice.onshipping')._get_journal(cr,uid,context)
+#         journal_id=self.pool.get('stock.invoice.onshipping')._get_journal(cr,uid,context)
         stock_partial_pick_obj=self.pool.get('stock.partial.picking')
         for pick in obj_picking.browse(cr, uid, search_id):
+            if not pick.move_lines:
+                raise osv.except_osv(_('Error!'),_('You cannot process picking without stock moves.'))
             todo_moves = [x.id for x in pick.move_lines if x.state in ['confirmed','waiting']]
             obj_stock_move.action_confirm(cr, uid, todo_moves)
-            obj_picking.draft_force_assign(cr,uid,[pick.id],context)
+            wf_service.trg_validate(uid, 'stock.picking', pick.id,'button_confirm', cr)
+#             for picking in self.browse(cr, uid, ids):
+#             obj_picking.draft_force_assign(cr,uid,[pick.id],context)
             obj_picking.force_assign(cr,uid,[pick.id],context)
             obj_picking.test_assigned(cr,uid,[pick.id])
             pick.action_assign_wkf()
-            process = obj_picking.action_process(cr, uid, [pick.id], context=context)
-            context = process.get('context')
-            context['active_id']=pick.id
-            context['active_ids']=search_id
+            context = obj_picking.action_process(cr, uid, [pick.id], context=context).get('context')
+#             context = process.
+            context['active_id'],context['active_ids'] = pick.id,search_id 
             res_id=stock_partial_pick_obj.create(cr,uid,{'date':time.strftime('%Y-%m-%d %H:%M:%S')},context)
             if res_id:
                 stock_partial_pick_obj.do_partial(cr, uid, [int(res_id)], context)
             pick.action_done()
-            inv_id=obj_picking.action_invoice_create(cr, uid, [pick.id], journal_id, False, 'out_invoice', context)
-            if inv_id:
-                inv_id=inv_id.values()
-                inv_id=int(inv_id[0])
-                return {
-                    'view_type': 'form',
-                    'view_mode': 'form',
-                    'res_id':inv_id,
-                    'res_model': 'account.invoice',
-                    'type': 'ir.actions.act_window',
-                    }
-
+            inv_id=obj_picking.action_invoice_create(cr, uid, [pick.id], False, False, 'out_invoice', context)
+        if inv_id:
+            inv_id=inv_id.values()
+            inv_id=int(inv_id[0])
+            return {
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_id':inv_id,
+                'res_model': 'account.invoice',
+                'type': 'ir.actions.act_window',
+                }
 sale_order()
 
 

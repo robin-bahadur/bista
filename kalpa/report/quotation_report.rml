@@ -159,7 +159,7 @@
     <paraStyle name="terp_default_9" fontName="Helvetica" fontSize="6.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="bista_dheeraj" fontName="Times-Roman" fontSize="10.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="bista_dheeraj123" fontName="Times-Roman" fontSize="10.0" leading="11" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="bista_dheeraj1" fontName="Times-Roman" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="bista_left_align" fontName="Times-Roman" fontSize="10.0" leading="11" alignment="LEFT" spaceBefore="5.0" spaceAfter="5.0"/>
     <paraStyle name="bista_dheeraj2" fontName="Times-Roman" fontSize="11.0" leading="11" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="bista_dheeraj3" fontName="Times-Roman" fontSize="11.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="bista_dheeraj4" fontName="Times-Roman" fontSize="11.0" leading="11" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
@@ -193,11 +193,11 @@
     <para style="terp_default_8">[[ repeatIn(objects,'o') ]]</para>
 
     <pto_header><!-- Must be after setLang() -->
-	<blockTable colWidths="100.0,140.0,60.0,40.0,70.0,60.0,65.0" style="Table4" repeatRows="0" align="LEFT">
+	<blockTable colWidths="250.0,50.0,30.0,10.0,70.0,60.0,65.0" style="Table4" repeatRows="0" align="LEFT">
 	 <tr>
 	    <td> <para style="terp_tblheader_Details">Omschrijving</para> </td>
-	    <td> <para style="terp_tblheader_Details">  </para> </td>
             <td> <para style="terp_tblheader_Details_Centre">Nr</para> </td>
+            <td> <para style="terp_tblheader_Details_Centre">  </para> </td>
 	    <td> <para style="terp_tblheader_Details_Centre">Aant</para> </td>
 	    <td> <para style="terp_tblheader_Details_Right">Stukprijs</para> </td>
             <td> <para style="terp_tblheader_Details_Right">Totaal</para> </td>
@@ -218,11 +218,12 @@
           <para style="terp_default_8">  Bank : NL88ABNA0575231092 </para>
           <para style="terp_default_8">  BTW : NL803285516B01</para>
           <para style="terp_default_8">  KvK: 30115387</para>
+		  
 
-
+           
            <para style="terp_default_8"><font color="white"> </font></para>
            <para style="terp_default_8"><font color="white"> </font></para>
-
+		   
            <para style="terp_default_8">
               Vertegenwoordiger :
           </para>
@@ -230,7 +231,7 @@
               [[(o.partner_id and o.partner_id.user_id and o.partner_id.user_id.signature) or '']]
           </para>
 	 
-	  <para style="terp_default_8"><font color="white"></font></para>
+	  <para style="terp_default_8"><font color="white"> </font></para>
 
           <para style="terp_default_8">Sales Order : [[o.name]]</para>
           <para style="terp_default_8">Orderdatum : [[ new_split(o) ]]</para>
@@ -276,10 +277,11 @@
    </blockTable>
 
 
-    <blockTable colWidths="250.0,50.0,10.0,70.0,60.0,65.0" style="Table4"  align="LEFT">
+    <blockTable colWidths="250.0,58.0,30.0,2.0,70.0,60.0,65.0" style="Table4"  align="LEFT">
 	 <tr>
 	    <td> <para style="terp_tblheader_Details">Omschrijving</para> </td>
             <td> <para style="terp_tblheader_Details_Centre">Nr</para> </td>
+            <td> <para style="terp_tblheader_Details_Centre">  </para> </td>
 	    <td> <para style="terp_tblheader_Details_Centre">Aant</para> </td>
 	    <td> <para style="terp_tblheader_Details_Right">Stukprijs</para> </td>
             <td> <para style="terp_tblheader_Details_Right">Totaal</para> </td>
@@ -290,7 +292,7 @@
    <section>
       <para style="terp_default_9">[[ repeatIn(get_sale_lines(o),'l') ]]</para>
 
-      <blockTable colWidths="250.0,50.0,10.0,70.0,60.0,65.0" style="Table1"  align="LEFT">
+      <blockTable colWidths="250.0,58.0,30.0,2.0,70.0,60.0,65.0" style="Table1"  align="LEFT">
         <tr>
           <td>
             <para style="bista_dheeraj">[[ l.product_id.name ]]</para>
@@ -298,8 +300,11 @@
           <td>
             <para style="bista_dheeraj">[[ l.product_id.default_code ]]</para>
           </td>
+          <td> 
+          <para style="bista_dheeraj">  </para> 
+          </td>
           <td>
-            <para style="bista_dheeraj">[[ split_qty(l.product_uom_qty) ]]</para>
+            <para style="bista_left_align">[[ split_qty(l.product_uom_qty) ]]</para>
           </td>
           <td>
             <para style="bista_dheeraj123">[[ formatLang(l.price_unit) ]]</para>

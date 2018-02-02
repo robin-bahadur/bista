@@ -133,7 +133,7 @@ class bank_stmnt_import(osv.osv_memory):
         csvfile = self.browse(cr,uid,ids).import_file
          
         if csvfile:
-            csvfile = base64.b64decode(csvfile)                 
+            csvfile = base64.b64decode(csvfile)
             for row in csv.reader(csIO(csvfile),dialect='mydialect'): # reading data from csv 
                 s_ref = ''
                 inv_ref = ''
@@ -167,7 +167,7 @@ class bank_stmnt_import(osv.osv_memory):
                             statement_date = value
                         if count==3 and value and row_count==1:
                             period = value
-                            period_search = period_obj.search(cr,uid,[('name', 'ilike',period)]) 
+                            period_search = period_obj.search(cr,uid,[('name', 'ilike',period)])
                         if count==6 and value and row_count>=4: 
                             amount = value
                         if  count==5 and value and row_count>=4:
@@ -343,11 +343,11 @@ class bank_stmnt_import(osv.osv_memory):
                                                          'partner_id':partner_id,
                                 
                                                        }))
-                                
                                 count=0
                                 row_count+=1
                                 continue
                         if flag == True:
+                            my_count = 0
                             else_count = 0  # this count is used for when all key not in csv description 
                             base_amount = 0.0
                             actual_amount = 0.0
@@ -356,37 +356,40 @@ class bank_stmnt_import(osv.osv_memory):
                                     else_count = 0
                                     for val in bank_dict.items():
                                         account_id = val[1].get('account')
-                                        if key == str(val[0]):     # checking condition if key(search word) of dict matches with val
-                                            if val[1].get('sales_tax'):     # checking sales tax is true if true then create another line                                      
-#                                                tax_amount = float(amount) * 0.21
+                                        if key == str(val[0]):
+                                            if val[1].get('sales_tax') and not my_count > 1:     # checking condition if key(search word) of dict matches with val
+                                                # checking sales tax is true if true then create another line                                      
+#                                               tax_amount = float(amount) * 0.21
+                                                my_count += 1
                                                 base_amount = float(amount) / 1.21
                                                 actual_amount = float(base_amount) * 0.21
                                                 #take sales tax account for sales tax line
                                                 acc_id = account_obj.search(cr,uid,['|',('name', '=','BTW VAT Paid'),('code','=','110300')])
                                                 statement_line_list.append((0,0,
                                                             {
-                                                             'date':transaction_date if  transaction_date else False,
-                                                             'name':desc_str if desc_str else False,
-                                                             'ref': '',
-                                                             'type':'general',
-                                                             'account_id':acc_id[0] if acc_id else False ,
-                                                             'amount':actual_amount,                                                         
-                                                                 }))
+                                                              'date':transaction_date if  transaction_date else False,
+                                                              'name':desc_str if desc_str else False,
+                                                              'ref': '',
+                                                              'type':'general',
+                                                              'account_id':acc_id[0] if acc_id else False ,
+                                                              'amount':actual_amount,                                                         
+                                                               }))
                                                 flag = True
                                         if not inv_type and key == str(val[0]):  # checking condition if key of dict matches with val and there is no inv type
-                                                inv_type= 'general'
-                                                #creating line if key(search word) is present
-                                                statement_line_list.append((0,0,
-                                                                        {
-                                                                         'date':transaction_date ,
-                                                                         'name':desc_str if desc_str else False,
-                                                                         'ref': '',
-                                                                         'type':inv_type,
-                                                                         'account_id':account_id ,
-                                                                         'amount':base_amount or float(amount),                                                                    
-                                                                         })) 
-                                                account_id = '' 
-                                                flag = True
+                                            inv_type= 'general'
+                                            #creating line if key(search word) is present
+                                            my_count += 1
+                                            statement_line_list.append((0,0,
+                                                                    {
+                                                                     'date':transaction_date ,
+                                                                     'name':desc_str if desc_str else False,
+                                                                     'ref': '',
+                                                                     'type':inv_type,
+                                                                     'account_id':account_id ,
+                                                                     'amount':base_amount or float(amount),                                                                    
+                                                                     })) 
+                                            account_id = '' 
+                                            flag = True
                                 else:
                                     else_count += 1
                             if  else_count == len(bank_dict) :  
